@@ -11,7 +11,8 @@ namespace Optional.Domain.Core
         }
 
         public int CourseId { get; set; }
-        public int Theme { get; set; }
+        public string Theme { get; set; }
+        public string Title { get; set; }
         public int Duration { get; set; }
         public DateTime StartDate { get; set; }
         public int? LecturerId { get; set; }
