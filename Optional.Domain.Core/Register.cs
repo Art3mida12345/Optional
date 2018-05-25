@@ -1,15 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Optional.Domain.Core
+﻿namespace Optional.Domain.Core
 {
     public class Register
     {
         public int RegisterId { get; set; }
-        [ForeignKey("Course")]
-        public int CourseId { get; set; }
-        [ForeignKey("Student")]
-        public int Id;
-        public Course Course { get; set; }
+        public int Mark { get; set; }
+        public int? StudentId { get; set; }
         public Student Student { get; set; }
     }
 }

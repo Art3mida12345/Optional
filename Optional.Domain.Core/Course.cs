@@ -11,12 +11,11 @@ namespace Optional.Domain.Core
         }
 
         public int CourseId { get; set; }
-        public int Title { get; set; }
+        public int Theme { get; set; }
         public int Duration { get; set; }
         public DateTime StartDate { get; set; }
         public int? LecturerId { get; set; }
         public Lecturer Lecturer { get; set; }
         public ICollection<Student> Students { get; set; }
-        public Register Register { get; set; }
     }
 }

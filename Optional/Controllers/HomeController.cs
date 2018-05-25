@@ -1,11 +1,21 @@
 ﻿using System.Web.Mvc;
+using Optional.Domain.Interfaces;
+
 
 namespace Optional.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private readonly IStudentRepository _studentRepository;
+
+        public HomeController(IStudentRepository student)
         {
+            _studentRepository = student;
+        }
+
+        public ViewResult Index()
+        {
+            ViewBag.Student = _studentRepository.GetAll();
             return View();
         }
 
@@ -21,6 +31,12 @@ namespace Optional.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        protected override void Dispose(bool d)
+        {
+            _studentRepository.Dispose();
+            base.Dispose(d);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Optional.Domain.Core
         public Student()
         {
             Courses=new List<Course>();
+            Registers=new List<Register>();
         }
 
         public int Id { get; set; }
@@ -21,6 +22,6 @@ namespace Optional.Domain.Core
         public int YearOfStudy { get; set; }
         public string Phone { get; set; }
         public ICollection<Course> Courses { get; set; }
-        public Register Register { get; set; }
+        public ICollection<Register> Registers { get; set; }
     }
 }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C030257F-8A8B-484B-A951-94C3FF567026}</ProjectGuid>
+    <ProjectGuid>{136A277A-C245-46CF-A1D0-C55677542FB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Optional.Domain.Interfaces</RootNamespace>
-    <AssemblyName>Optional.Domain.Interfaces</AssemblyName>
+    <RootNamespace>Optional.Infrastructure.Data</RootNamespace>
+    <AssemblyName>Optional.Infrastructure.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,7 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,14 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRepository.cs" />
-    <Compile Include="IStudentRepository.cs" />
+    <Compile Include="CourseRepository.cs" />
+    <Compile Include="LecturerRepository.cs" />
+    <Compile Include="OptionalContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterRepository.cs" />
+    <Compile Include="StudentRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Optional.Domain.Core\Optional.Domain.Core.csproj">
       <Project>{ea6cf31f-5dbc-4b00-afce-c43ce8033659}</Project>
       <Name>Optional.Domain.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Optional.Domain.Interfaces\Optional.Domain.Interfaces.csproj">
+      <Project>{c030257f-8a8b-484b-a951-94c3ff567026}</Project>
+      <Name>Optional.Domain.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
