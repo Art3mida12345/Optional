@@ -6,23 +6,58 @@ using Optional.Domain.Interfaces;
 
 namespace Optional.Infrastructure.Data
 {
-    public class CourseRepository:IRepository<Course>
+    public class CourseRepository : IRepository<Course>
     {
-        private OptionalContext db;
+        //    private OptionalContext db;
 
-        public CourseRepository()
-        {
-            db=new OptionalContext();
-        }
+        //    public CourseRepository()
+        //    {
+        //        db=new OptionalContext();
+        //    }
 
+        //    public void Dispose()
+        //    {
+        //        db.Dispose();
+        //    }
+
+        //    public IEnumerable<Course> GetAll()
+        //    {
+        //        return db.Courses.ToList();
+        //    }
+
+        //    public Course Get(int id)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public IEnumerable<Course> Find(Func<Course, bool> predicate)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public void Create(Course item)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public void Update(Course item)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public void Delete(int id)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
         public void Dispose()
         {
-            db.Dispose();
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Course> GetAll()
         {
-            return db.Courses.ToList();
+            throw new NotImplementedException();
         }
 
         public Course Get(int id)

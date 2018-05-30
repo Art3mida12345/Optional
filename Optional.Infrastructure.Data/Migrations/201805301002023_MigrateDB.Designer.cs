@@ -7,13 +7,13 @@ namespace Optional.Infrastructure.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class AddCompanyMigration : IMigrationMetadata
+    public sealed partial class MigrateDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddCompanyMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MigrateDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805251934279_AddCompanyMigration"; }
+            get { return "201805301002023_MigrateDB"; }
         }
         
         string IMigrationMetadata.Source

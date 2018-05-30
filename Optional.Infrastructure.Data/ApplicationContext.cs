@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Optional.Domain.Core;
 
@@ -12,5 +13,7 @@ namespace Optional.Infrastructure.Data
         {
             return new ApplicationContext();
         }
+        public DbSet<Register> Registers { get; set; }
+        public DbSet<Course> Courses { get; set; }
     }
 }

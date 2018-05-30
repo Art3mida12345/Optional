@@ -75,19 +75,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationContext.cs" />
+    <Compile Include="ApplicationRoleManager.cs" />
     <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="CourseRepository.cs" />
     <Compile Include="LecturerRepository.cs" />
-    <Compile Include="Migrations\201805251814472_InitialCreate.cs" />
-    <Compile Include="Migrations\201805251814472_InitialCreate.Designer.cs">
-      <DependentUpon>201805251814472_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201805300943237_InitialCreate.cs" />
+    <Compile Include="Migrations\201805300943237_InitialCreate.Designer.cs">
+      <DependentUpon>201805300943237_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805251934279_AddCompanyMigration.cs" />
-    <Compile Include="Migrations\201805251934279_AddCompanyMigration.Designer.cs">
-      <DependentUpon>201805251934279_AddCompanyMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201805301002023_MigrateDB.cs" />
+    <Compile Include="Migrations\201805301002023_MigrateDB.Designer.cs">
+      <DependentUpon>201805301002023_MigrateDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="OptionalContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterRepository.cs" />
     <Compile Include="StudentRepository.cs" />
@@ -106,11 +106,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805251814472_InitialCreate.resx">
-      <DependentUpon>201805251814472_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805300943237_InitialCreate.resx">
+      <DependentUpon>201805300943237_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805251934279_AddCompanyMigration.resx">
-      <DependentUpon>201805251934279_AddCompanyMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805301002023_MigrateDB.resx">
+      <DependentUpon>201805301002023_MigrateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

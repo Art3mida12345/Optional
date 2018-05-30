@@ -5,15 +5,15 @@ namespace Optional.Infrastructure.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Optional.Infrastructure.Data.OptionalContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Optional.Infrastructure.Data.ApplicationContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Optional.Infrastructure.Data.OptionalContext";
+            ContextKey = "Optional.Infrastructure.Data.ApplicationContext";
         }
 
-        protected override void Seed(Optional.Infrastructure.Data.OptionalContext context)
+        protected override void Seed(Optional.Infrastructure.Data.ApplicationContext context)
         {
             //  This method will be called after migrating to the latest version.
 
