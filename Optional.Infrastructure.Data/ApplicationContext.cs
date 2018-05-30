@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Optional.Domain.Core;
 
@@ -13,6 +12,14 @@ namespace Optional.Infrastructure.Data
         {
             return new ApplicationContext();
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Lecturer>().ToTable("Lecturers");
+            modelBuilder.Entity<Student>().ToTable("Students");
+        }
+
         public DbSet<Register> Registers { get; set; }
         public DbSet<Course> Courses { get; set; }
     }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Collections.Generic;
 
 namespace Optional.Domain.Core
 {
-    public class Student:IdentityUser
+    public class Student:ApplicationUser
     {
         public Student()
         {

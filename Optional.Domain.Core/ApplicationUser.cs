@@ -14,6 +14,5 @@ namespace Optional.Domain.Core
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-18);
         public string Gender { get; set; }
-        public string Phone { get; set; }
     }
 }

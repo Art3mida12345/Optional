@@ -1,9 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-using Optional.Domain.Core;
 using Optional.Domain.Interfaces;
 using Optional.Infrastructure.Data;
 
@@ -26,9 +24,6 @@ namespace Optional.Controllers
 
         public ActionResult About()
         {
-            ApplicationUser user = new ApplicationUser() {Email = "email@.com", UserName = "Admin"};
-            string password = "verylong&hardpassword";
-            UserManager.Create(user, password);
             ViewBag.Message = "Your application description page.";
             return View();
         }
