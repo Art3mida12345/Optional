@@ -1,0 +1,15 @@
+﻿@model List<Optional.Domain.Core.Lecturer>
+@{
+    ViewBag.Title = "LecturerList";
+}
+
+@foreach (var lecturer in Model)
+{
+    <p>@lecturer.LastName</p>
+    <p>@lecturer.FirstName</p>
+    <p>@lecturer.MiddleName</p>
+    <p>@lecturer.UserName</p>
+    <p>@lecturer.BirthDate.ToShortDateString()</p>
+    <p>@lecturer.PhoneNumber</p>
+    @Html.ActionLink("Прикрепить к курсу","SelectLecturerToCourse", new{lecturerName=lecturer.UserName})
+}

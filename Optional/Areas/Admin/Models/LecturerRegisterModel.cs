@@ -20,7 +20,6 @@ namespace Optional.Areas.Admin.Models
 
         [Required]
         [RegularExpression("[А-ЯЁа-яё]{1,40}")]
-
         public string MiddleName { get; set; }
 
         [Required]
@@ -33,6 +32,7 @@ namespace Optional.Areas.Admin.Models
 
         public string Gender { get; set; }
 
+        [Required]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 

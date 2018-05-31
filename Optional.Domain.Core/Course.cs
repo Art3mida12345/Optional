@@ -15,7 +15,6 @@ namespace Optional.Domain.Core
         public string Title { get; set; }
         public int Duration { get; set; }
         public DateTime StartDate { get; set; }
-        public int? LecturerId { get; set; }
         public Lecturer Lecturer { get; set; }
         public ICollection<Student> Students { get; set; }
     }

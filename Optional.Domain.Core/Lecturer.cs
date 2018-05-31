@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-
-namespace Optional.Domain.Core
+﻿namespace Optional.Domain.Core
 {
     public class Lecturer:ApplicationUser
     {

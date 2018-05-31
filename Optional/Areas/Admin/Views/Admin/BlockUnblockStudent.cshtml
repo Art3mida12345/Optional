@@ -1,0 +1,62 @@
+﻿@using Optional.Areas.Admin.Models
+
+@{
+    ViewBag.Title = "BlockUnblockStudent";
+}
+
+<h2>BlockUnblockStudent</h2>
+
+<div>
+    <h4>BlockStudentViewModel</h4>
+    <hr />
+    @foreach (BlockStudentViewModel student in ViewBag.Students)
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(student.FirstName)
+            </dt>
+
+            <dd>
+                @Html.Display(student.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(student.MiddleName)
+            </dt>
+
+            <dd>
+                @Html.Display(student.MiddleName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(student.LastName)
+            </dt>
+
+            <dd>
+                @Html.Display(student.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(student.Group)
+            </dt>
+
+            <dd>
+                @Html.Display(student.Group)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(student.YearOfStudy.ToString())
+            </dt>
+
+            <dd>
+                @Html.Display(student.YearOfStudy.ToString())
+            </dd>
+
+        </dl>
+        <p >
+        @(student.Blocked ? Html.ActionLink("Block", "BlockStudent", new {name = student.UserName}, new {@class = "block"})
+            : Html.ActionLink("Unblock", "UnblockStudent", new {name = student.UserName}, new {@class = "unblock"}))
+        @Html.ActionLink("Back to List", "Index")
+        </p>
+    }
+</div>

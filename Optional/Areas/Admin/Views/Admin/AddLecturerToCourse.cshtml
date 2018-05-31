@@ -1,0 +1,15 @@
+﻿@model List<Optional.Domain.Core.Course>
+@{
+    ViewBag.Title = "AddLecturerToCourse";
+}
+
+<h2>AddLecturerToCourse</h2>
+
+@foreach (var course in Model)
+{
+    <p>@course.Title</p>
+    <p>@course.Theme</p>
+    <p>@course.StartDate.ToShortDateString()</p>
+    <p>@course.Duration</p>
+    @Html.ActionLink("ВЫбрать курс","AddLecturerToCourse", new {courseId=course.CourseId, lecturerName=ViewBag.Lecturer})
+}

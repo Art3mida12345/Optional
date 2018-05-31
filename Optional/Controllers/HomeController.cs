@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Optional.Domain.Interfaces;
 using Optional.Infrastructure.Data;
@@ -19,6 +18,7 @@ namespace Optional.Controllers
 
         public ViewResult Index()
         {
+
             return View();
         }
 
