@@ -10,7 +10,6 @@ namespace Optional.Infrastructure.Data.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Optional.Infrastructure.Data.ApplicationContext";
         }
 
         protected override void Seed(Optional.Infrastructure.Data.ApplicationContext context)

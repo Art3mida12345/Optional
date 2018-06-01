@@ -1,25 +1,22 @@
-﻿using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity.Owin;
 using Optional.Domain.Interfaces;
-using Optional.Infrastructure.Data;
 
 namespace Optional.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IStudentRepository _studentRepository;
-        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        private readonly ICourseRepository _courseRepository;
+        //private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-        public HomeController(IStudentRepository student)
+        public HomeController(ICourseRepository course)
         {
-            _studentRepository = student;
+            _courseRepository = course;
         }
 
         public ViewResult Index()
         {
-
-            return View();
+            return View(_courseRepository.GetAll().ToList());
         }
 
         public ActionResult About()
@@ -37,7 +34,7 @@ namespace Optional.Controllers
 
         protected override void Dispose(bool d)
         {
-            //_studentRepository.Dispose();
+            _courseRepository.Dispose();
             base.Dispose(d);
         }
     }

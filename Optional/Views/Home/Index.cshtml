@@ -1,5 +1,46 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<Optional.Domain.Core.Course>
+
+@{
+    ViewBag.Title = "Index";
 }
 
-<p>Start</p>
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Тема
+        </th>
+        <th>
+            Название
+        </th>
+        <th>
+            Длительность в днях
+        </th>
+        <th>
+            Дата начала
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Theme)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Duration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.ActionLink("Записаться", "EnrollForCourse", new {controller="Student", area="Student", id=item.CourseId}, new { id=item.CourseId })
+        </td>
+    </tr>
+}
+
+</table>

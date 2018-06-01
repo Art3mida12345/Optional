@@ -13,5 +13,6 @@ namespace Optional.Domain.Interfaces
         void Update(Course item);
         void Delete(int id);
         void AddLecturerToCourse(string lecturer, int courseId);
+        void AddStudentToCourse(string student, int coirseId);
     }
 }

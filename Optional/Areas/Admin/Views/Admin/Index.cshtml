@@ -1,7 +1,10 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
-
+@Html.ActionLink("Добавить преподователя","RegisterLecturer")
+@Html.ActionLink("Добавить курс", "CreateCourse")
+@Html.ActionLink("Заблокировать/Разблокировать студента","BlockUnblockStudent")
+@Html.ActionLink("Список преподователей","LecturerList")
+@Html.ActionLink("Список курсов","CourseList")

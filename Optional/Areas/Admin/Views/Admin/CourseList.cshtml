@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Optional.Domain.Core.Course>
+
+@{
+    ViewBag.Title = "CourseList";
+}
+
+<h2>CourseList</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Theme)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lecturer)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Theme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @item.StartDate.ToShortDateString()
+            </td>
+            <td>
+                @if (item.Lecturer != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Lecturer.UserName)
+                }
+                else
+                {
+                    <p>Преподователь еще не назначен.</p>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCourse", new {id = item.CourseId}) |
+                @Html.ActionLink("Delete", "DeleteCourse", new {id = item.CourseId})|
+                @Html.ActionLink("Изменить преподавателя", "SelectLecturer", new {courseId = item.CourseId})|
+                @Html.ActionLink("Create New", "CreateCourse")
+            </td>
+        </tr>
+    }
+
+</table>

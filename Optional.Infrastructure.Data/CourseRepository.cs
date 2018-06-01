@@ -23,7 +23,7 @@ namespace Optional.Infrastructure.Data
 
         public IEnumerable<Course> GetAll()
         {
-            return _db.Courses.ToList();
+            return _db.Courses.Include(c=>c.Lecturer).ToList();
         }
 
         public Course Get(int id)
@@ -62,6 +62,17 @@ namespace Optional.Infrastructure.Data
             if (course != null)
             {
                 course.Lecturer = (Lecturer)_db.Users.First(u => u.UserName==lecturer);
+                _db.SaveChanges();
+            }
+        }
+
+        public void AddStudentToCourse(string studentName, int courseId)
+        {
+            var course = _db.Courses.Where(c=>c.CourseId==courseId).Include(c=>c.Students).First();
+            var student = (Student) _db.Users.First(u => u.UserName == studentName);
+            if (course != null && !course.Students.Contains(student))
+            {
+                course.Students.Add((Student)_db.Users.First(u=>u.UserName==studentName));
                 _db.SaveChanges();
             }
         }

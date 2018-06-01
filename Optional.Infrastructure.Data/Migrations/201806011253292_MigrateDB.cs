@@ -3,7 +3,7 @@ namespace Optional.Infrastructure.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class MigrateDB : DbMigration
     {
         public override void Up()
         {
@@ -16,12 +16,11 @@ namespace Optional.Infrastructure.Data.Migrations
                         Title = c.String(),
                         Duration = c.Int(nullable: false),
                         StartDate = c.DateTime(nullable: false),
-                        LecturerId = c.Int(),
-                        Lecturer_Id = c.String(maxLength: 128),
+                        LecturerId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.CourseId)
-                .ForeignKey("dbo.Lecturers", t => t.Lecturer_Id)
-                .Index(t => t.Lecturer_Id);
+                .ForeignKey("dbo.Lecturers", t => t.LecturerId)
+                .Index(t => t.LecturerId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -159,7 +158,7 @@ namespace Optional.Infrastructure.Data.Migrations
             DropForeignKey("dbo.Registers", "Student_Id", "dbo.Students");
             DropForeignKey("dbo.StudentCourses", "Course_CourseId", "dbo.Courses");
             DropForeignKey("dbo.StudentCourses", "Student_Id", "dbo.Students");
-            DropForeignKey("dbo.Courses", "Lecturer_Id", "dbo.Lecturers");
+            DropForeignKey("dbo.Courses", "LecturerId", "dbo.Lecturers");
             DropIndex("dbo.Students", new[] { "Id" });
             DropIndex("dbo.Lecturers", new[] { "Id" });
             DropIndex("dbo.StudentCourses", new[] { "Course_CourseId" });
@@ -171,7 +170,7 @@ namespace Optional.Infrastructure.Data.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Courses", new[] { "Lecturer_Id" });
+            DropIndex("dbo.Courses", new[] { "LecturerId" });
             DropTable("dbo.Students");
             DropTable("dbo.Lecturers");
             DropTable("dbo.StudentCourses");

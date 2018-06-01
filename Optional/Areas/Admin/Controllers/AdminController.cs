@@ -12,11 +12,12 @@ using Optional.Infrastructure.Data;
 
 namespace Optional.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private readonly ICourseRepository _courseRepository;
-
+        //private ApplicationRoleManager RoleManager=> HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
         public AdminController(ICourseRepository course)
         {
             _courseRepository = course;
@@ -52,7 +53,7 @@ namespace Optional.Areas.Admin.Controllers
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(user.Id, "lecturer");
+                    UserManager.AddToRole(user.Id, "teacher");
                     return RedirectToAction("Login", "Account", new {area=""});
                 }
 
@@ -79,16 +80,23 @@ namespace Optional.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateCourse(CourseViewModel course)
         {
-            if(ModelState.IsValid){
+            if(ModelState.IsValid)
+            {
                 _courseRepository.Create(new Course
             {
                 Duration = course.Duration,
                 StartDate = course.StartDate,
                 Theme = course.Theme,
-                Title = course.Title
+                Title = course.Title,
             });
+                if (course.LecturerName != null)
+                {
+                    _courseRepository.AddLecturerToCourse(course.LecturerName, 
+                        _courseRepository.GetAll().Last().CourseId);
+                }
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -108,12 +116,17 @@ namespace Optional.Areas.Admin.Controllers
 
         public ViewResult BlockUnblockStudent()
         {
-            List<Student> students =
-                UserManager.Users.Where(u => UserManager.IsInRole(u.Id, "student")).Cast<Student>().ToList();
-
-            if (students.Count>0)
+            var users = UserManager.Users.ToList();
+            var students = new List<Domain.Core.Student>();
+            foreach (var user in users)
             {
-                List<BlockStudentViewModel> blockStudent=new List<BlockStudentViewModel>();
+                if (UserManager.IsInRole(user.Id, "student"))
+                    students.Add((Domain.Core.Student)user);
+            }
+
+            if (users.Count > 0)
+            {
+                List<BlockStudentViewModel> blockStudent = new List<BlockStudentViewModel>();
                 foreach (var student in students)
                 {
                     blockStudent.Add(new BlockStudentViewModel
@@ -158,6 +171,87 @@ namespace Optional.Areas.Admin.Controllers
         {
             _courseRepository.AddLecturerToCourse(lecturerName,courseId);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult EditCourse(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            Course course = _courseRepository.Get((int) id);
+            if (course != null)
+            {
+                CourseViewModel courseView = new CourseViewModel
+                {
+                    CourseId = course.CourseId,
+                    Duration = course.Duration,
+                    StartDate = course.StartDate,
+                    Theme = course.Theme,
+                    Title = course.Title
+                };
+
+                return View(courseView);
+            }
+            return HttpNotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCourse(CourseViewModel course)
+        {
+            _courseRepository.Update(_courseRepository.Get(course.CourseId));
+            return RedirectToAction("CourseList");
+        }
+
+        public ActionResult CourseList()
+        {
+            return View(_courseRepository.GetAll().ToList());
+        }
+
+        [HttpGet]
+        public ActionResult DeleteCourse(int id)
+        {
+            Course course = _courseRepository.Get(id);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            return View(course);
+        }
+
+        [HttpPost, ActionName("DeleteCourse")]
+        public ActionResult DeleteCourseConfirmed(int id)
+        {
+            Course course = _courseRepository.Get(id);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            _courseRepository.Delete(id);
+            return RedirectToAction("CourseList");
+        }
+
+        public ViewResult SelectLecturer(int courseId)
+        {
+            var users = UserManager.Users.ToList();
+            var lecturers = new List<ApplicationUser>();
+            foreach (var user in users)
+            {
+                if (UserManager.IsInRole(user.Id, "teacher"))
+                    lecturers.Add(user);
+            }
+
+            ViewBag.CourseId = courseId;
+            return View(lecturers.Cast<Lecturer>().ToList());
+        }
+
+        protected override void Dispose(bool d)
+        {
+            _courseRepository.Dispose();
+            base.Dispose(d);
         }
     }
 }

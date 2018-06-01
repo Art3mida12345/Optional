@@ -193,6 +193,9 @@
     <Compile Include="Areas\Admin\Models\BlockStudentViewModel.cs" />
     <Compile Include="Areas\Admin\Models\CourseViewModel.cs" />
     <Compile Include="Areas\Admin\Models\LecturerRegisterModel.cs" />
+    <Compile Include="Areas\Student\Controllers\StudentController.cs" />
+    <Compile Include="Areas\Student\Models\StudentViewModel.cs" />
+    <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs">
       <CustomToolNamespace>Optional</CustomToolNamespace>
@@ -226,6 +229,14 @@
     <Content Include="Areas\Admin\Views\Admin\BlockUnblockStudent.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\LecturerList.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\AddLecturerToCourse.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\CourseList.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\DeleteCourse.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\EditCourse.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\SelectLecturer.cshtml" />
+    <Content Include="Areas\Student\Views\web.config" />
+    <Content Include="Areas\Student\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Student\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Student\Views\Student\Register.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -250,8 +261,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

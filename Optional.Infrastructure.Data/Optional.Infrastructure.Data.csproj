@@ -79,13 +79,13 @@
     <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="CourseRepository.cs" />
     <Compile Include="LecturerRepository.cs" />
-    <Compile Include="Migrations\201805301724299_InitialCreate.cs" />
-    <Compile Include="Migrations\201805301724299_InitialCreate.Designer.cs">
-      <DependentUpon>201805301724299_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201806011253292_MigrateDB.cs" />
+    <Compile Include="Migrations\201806011253292_MigrateDB.Designer.cs">
+      <DependentUpon>201806011253292_MigrateDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805311655234_Migrated.cs" />
-    <Compile Include="Migrations\201805311655234_Migrated.Designer.cs">
-      <DependentUpon>201805311655234_Migrated.cs</DependentUpon>
+    <Compile Include="Migrations\201806011315164_MigrateDB1.cs" />
+    <Compile Include="Migrations\201806011315164_MigrateDB1.Designer.cs">
+      <DependentUpon>201806011315164_MigrateDB1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,11 +106,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805301724299_InitialCreate.resx">
-      <DependentUpon>201805301724299_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806011253292_MigrateDB.resx">
+      <DependentUpon>201806011253292_MigrateDB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805311655234_Migrated.resx">
-      <DependentUpon>201805311655234_Migrated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806011315164_MigrateDB1.resx">
+      <DependentUpon>201806011315164_MigrateDB1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

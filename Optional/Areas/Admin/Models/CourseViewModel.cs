@@ -5,6 +5,8 @@ namespace Optional.Areas.Admin.Models
 {
     public class CourseViewModel
     {
+        public int CourseId { get; set; }
+
         [Required]
         public string Theme { get; set; }
 
