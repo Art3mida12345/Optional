@@ -23,12 +23,12 @@ namespace Optional.Infrastructure.Data
 
         public IEnumerable<Student> GetAll()
         {
-            return _db.Users.OfType<Student>().ToList();
+            return _db.Users.OfType<Student>().Include(s=>s.Courses).ToList();
         }
 
         public Student Get(string userName)
         {
-            return (Student) _db.Users.First(u => u.UserName.Equals(userName));
+            return (Student) _db.Users.OfType<Student>().Include(s=>s.Courses).First(u => u.UserName.Equals(userName));
         }
 
         public IEnumerable<Student> Find(Func<Student, bool> predicate)

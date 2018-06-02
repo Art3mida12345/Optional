@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -10,21 +12,35 @@ using Optional.Infrastructure.Data;
 
 namespace Optional.Areas.Student.Controllers
 {
+    [Authorize(Roles = "student")]
     public class StudentController : Controller
     {
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private readonly ICourseRepository _courseRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public StudentController(ICourseRepository courseRepository)
+        public StudentController(ICourseRepository courseRepository, IStudentRepository studentRepository)
         {
             _courseRepository = courseRepository;
+            _studentRepository = studentRepository;
         }
-
-        private ApplicationRoleManager RoleManager=> HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
 
         public ActionResult Index()
         {
-            return View();
+            Domain.Core.Student user = (Domain.Core.Student) UserManager.FindByNameAsync(User.Identity.Name).Result;
+            if (user != null)
+            {
+                if (User.IsInRole("active"))
+                {
+                    ViewBag.Active = "Профиль активен.";
+                    return View(user);
+                }
+
+                ViewBag.Active = "Профиль заблокирован администратором.";
+                return View(user);
+            }
+
+            return HttpNotFound();
         }
 
         [Authorize(Roles = "student")]
@@ -97,11 +113,23 @@ namespace Optional.Areas.Student.Controllers
             return View(studentView);
         }
 
+        public ActionResult NotStartedCourses()
+        {
+            Domain.Core.Student user = _studentRepository.Get(User.Identity.Name);
+            if (user != null)
+            {
+                var courses = user.Courses.Where(course => course.StartDate.CompareTo(DateTime.Now)==1).ToList();
+                return PartialView(courses);
+            }
+
+            return new ContentResult{Content = "<p>Таких курсов нет.</p>"};
+        }
+
         protected override void Dispose(bool d)
         {
             _courseRepository.Dispose();
+            _studentRepository.Dispose();
             base.Dispose(d);
         }
-
     }
 }

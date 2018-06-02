@@ -25,6 +25,12 @@ namespace Optional.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
+            ApplicationUser user = UserManager.FindByNameAsync(User.Identity.Name).Result;
+            if (user != null)
+            {
+                return View(user);
+            }
+
             return View();
         }
 

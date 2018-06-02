@@ -223,7 +223,6 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\RegisterLecturer.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\CreateCourse.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\BlockUnblockStudent.cshtml" />
@@ -237,6 +236,9 @@
     <Content Include="Areas\Student\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Student\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Student\Views\Student\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Student\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Student\NotStartedCourses.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

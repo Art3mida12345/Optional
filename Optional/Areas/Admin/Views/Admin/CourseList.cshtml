@@ -55,8 +55,7 @@
             <td>
                 @Html.ActionLink("Edit", "EditCourse", new {id = item.CourseId}) |
                 @Html.ActionLink("Delete", "DeleteCourse", new {id = item.CourseId})|
-                @Html.ActionLink("Изменить преподавателя", "SelectLecturer", new {courseId = item.CourseId})|
-                @Html.ActionLink("Create New", "CreateCourse")
+                @Html.ActionLink("Изменить преподавателя", "SelectLecturer", new {courseId = item.CourseId})
             </td>
         </tr>
     }
