@@ -193,6 +193,9 @@
     <Compile Include="Areas\Admin\Models\BlockStudentViewModel.cs" />
     <Compile Include="Areas\Admin\Models\CourseViewModel.cs" />
     <Compile Include="Areas\Admin\Models\LecturerRegisterModel.cs" />
+    <Compile Include="Areas\Lecturer\Controllers\LecturerController.cs" />
+    <Compile Include="Areas\Lecturer\LecturerAreaRegistration.cs" />
+    <Compile Include="Areas\Lecturer\Models\StudentWithMark.cs" />
     <Compile Include="Areas\Student\Controllers\StudentController.cs" />
     <Compile Include="Areas\Student\Models\StudentViewModel.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
@@ -238,7 +241,13 @@
     <Content Include="Areas\Student\Views\Student\Register.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Student\Views\Student\Index.cshtml" />
-    <Content Include="Areas\Student\Views\Student\NotStartedCourses.cshtml" />
+    <Content Include="Areas\Student\Views\Student\CoursesList.cshtml" />
+    <Content Include="Areas\Lecturer\Views\web.config" />
+    <Content Include="Areas\Lecturer\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Lecturer\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Lecturer\Views\Lecturer\Index.cshtml" />
+    <Content Include="Areas\Lecturer\Views\Lecturer\CourseList.cshtml" />
+    <Content Include="Areas\Lecturer\Views\Lecturer\Grade.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

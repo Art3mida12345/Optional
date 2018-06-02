@@ -1,4 +1,4 @@
-﻿@model Optional.Domain.Core.Student
+﻿@model Optional.Domain.Core.Lecturer
 
 @{
     ViewBag.Title = "Index";
@@ -7,8 +7,7 @@
 <h2>Index</h2>
 
 <div>
-    <h4>Student</h4>
-    <h4>@ViewBag.Active</h4>
+    <h4>Lecturer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -76,19 +75,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Group)
+            @Html.DisplayNameFor(model => model.Department)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Group)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.YearOfStudy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YearOfStudy)
+            @Html.DisplayFor(model => model.Department)
         </dd>
 
     </dl>
@@ -97,8 +88,4 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
-<div>
-    @{ Html.RenderAction("NotStartedCourses"); }
-    @{ Html.RenderAction("StartedCourses"); }
-    @{ Html.RenderAction("PassedCourses"); }
-</div>
+@{ Html.RenderAction("CourseList");}

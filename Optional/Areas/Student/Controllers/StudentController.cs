@@ -119,10 +119,42 @@ namespace Optional.Areas.Student.Controllers
             if (user != null)
             {
                 var courses = user.Courses.Where(course => course.StartDate.CompareTo(DateTime.Now)==1).ToList();
-                return PartialView(courses);
+                if (courses.Count == 0)
+                {
+                    return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
+                }
+
+                return PartialView("CoursesList",courses);
             }
 
             return new ContentResult{Content = "<p>Таких курсов нет.</p>"};
+        }
+
+        public ActionResult StartedCourses()
+        {
+            Domain.Core.Student user = _studentRepository.Get(User.Identity.Name);
+            if (user != null)
+            {
+                var courses = user.Courses.Where(course => course.StartDate.CompareTo(DateTime.Now) == -1).ToList();
+                if (courses.Count == 0)
+                {
+                    return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
+                }
+
+                return PartialView("CoursesList", courses);
+            }
+
+            return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
+        }
+
+        public ActionResult PassedCourses()
+        {
+            Domain.Core.Student user = _studentRepository.GetWithRegisters(User.Identity.Name);
+            if (user != null)
+            {
+                var registers = user.Registers.ToList();
+            }
+            return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
         }
 
         protected override void Dispose(bool d)

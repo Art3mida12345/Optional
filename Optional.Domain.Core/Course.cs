@@ -18,5 +18,6 @@ namespace Optional.Domain.Core
         public Lecturer Lecturer { get; set; }
         public Guid LecturerId { get; set; }
         public ICollection<Student> Students { get; set; }
+        public ICollection<Register> Registers { get; set; }
     }
 }

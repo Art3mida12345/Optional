@@ -76,5 +76,10 @@ namespace Optional.Infrastructure.Data
                 _db.SaveChanges();
             }
         }
+
+        public IEnumerable<Register> GetMarks(int courseId)
+        {
+            return _db.Registers.Include(r=>r.Student).Where(r => r.Course.CourseId == courseId).ToList();
+        }
     }
 }

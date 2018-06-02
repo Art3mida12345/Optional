@@ -87,6 +87,10 @@
     <Compile Include="Migrations\201806011315164_MigrateDB1.Designer.cs">
       <DependentUpon>201806011315164_MigrateDB1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806021606234_MigrateRerister.cs" />
+    <Compile Include="Migrations\201806021606234_MigrateRerister.Designer.cs">
+      <DependentUpon>201806021606234_MigrateRerister.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterRepository.cs" />
@@ -111,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806011315164_MigrateDB1.resx">
       <DependentUpon>201806011315164_MigrateDB1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806021606234_MigrateRerister.resx">
+      <DependentUpon>201806021606234_MigrateRerister.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

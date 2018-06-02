@@ -41,5 +41,10 @@ namespace Optional.Infrastructure.Data
             _db.Entry(item).State = EntityState.Modified;
             _db.SaveChanges();
         }
+
+        public Student GetWithRegisters(string userName)
+        {
+            return (Student)_db.Users.OfType<Student>().Include(s => s.Registers).First(u => u.UserName.Equals(userName));
+        }
     }
 }

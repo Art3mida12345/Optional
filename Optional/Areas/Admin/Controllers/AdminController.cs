@@ -44,7 +44,7 @@ namespace Optional.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new Lecturer()
+                ApplicationUser user = new Domain.Core.Lecturer()
                 {
                     BirthDate = model.BirthDate,
                     FirstName = model.FirstName,
@@ -164,7 +164,7 @@ namespace Optional.Areas.Admin.Controllers
                     lecturers.Add(user);
             }
 
-            return View(lecturers.Cast<Lecturer>().ToList());
+            return View(lecturers.Cast<Domain.Core.Lecturer>().ToList());
         }
 
         public ViewResult SelectLecturerToCourse(string lecturerName)
@@ -251,7 +251,7 @@ namespace Optional.Areas.Admin.Controllers
             }
 
             ViewBag.CourseId = courseId;
-            return View(lecturers.Cast<Lecturer>().ToList());
+            return View(lecturers.Cast<Domain.Core.Lecturer>().ToList());
         }
 
         protected override void Dispose(bool d)

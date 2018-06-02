@@ -1,16 +1,16 @@
-﻿@model IEnumerable<Optional.Domain.Core.Lecturer>
+﻿@model IEnumerable<Optional.Areas.Lecturer.Models.StudentWithMark>
 
 @{
-    ViewBag.Title = "SelectLecturer";
+    ViewBag.Title = "Grade";
 }
 
-<h2>SelectLecturer</h2>
+<h2>Grade</h2>
 
-<p>
-    @Html.ActionLink("Create New", "RegisterLecturer")
-</p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </th>
@@ -33,13 +33,25 @@
             @Html.DisplayNameFor(model => model.Gender)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Department)
+            @Html.DisplayNameFor(model => model.Group)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearOfStudy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearOfStudy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mark)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
@@ -62,10 +74,16 @@
             @Html.DisplayFor(modelItem => item.Gender)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Department)
+            @Html.DisplayFor(modelItem => item.Group)
         </td>
         <td>
-            @Html.ActionLink("Select", "AddLecturerToCourse", new { courseId=ViewBag.CourseId, lecturerName=item.UserName })
+            @Html.DisplayFor(modelItem => item.YearOfStudy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mark)
+        </td>
+        <td>
+            @Html.ActionLink("Поставить оценку", "GradeMark", new { name=item.UserName, courseId=ViewBag.CourseId })
         </td>
     </tr>
 }
