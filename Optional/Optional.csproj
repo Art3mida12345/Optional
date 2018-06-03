@@ -195,8 +195,10 @@
     <Compile Include="Areas\Admin\Models\LecturerRegisterModel.cs" />
     <Compile Include="Areas\Lecturer\Controllers\LecturerController.cs" />
     <Compile Include="Areas\Lecturer\LecturerAreaRegistration.cs" />
+    <Compile Include="Areas\Lecturer\Models\RegisterViewModel.cs" />
     <Compile Include="Areas\Lecturer\Models\StudentWithMark.cs" />
     <Compile Include="Areas\Student\Controllers\StudentController.cs" />
+    <Compile Include="Areas\Student\Models\PassedCourse.cs" />
     <Compile Include="Areas\Student\Models\StudentViewModel.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -248,6 +250,9 @@
     <Content Include="Areas\Lecturer\Views\Lecturer\Index.cshtml" />
     <Content Include="Areas\Lecturer\Views\Lecturer\CourseList.cshtml" />
     <Content Include="Areas\Lecturer\Views\Lecturer\Grade.cshtml" />
+    <Content Include="Areas\Lecturer\Views\Lecturer\EditRegister.cshtml" />
+    <Content Include="Areas\Lecturer\Views\Lecturer\CreateRegister.cshtml" />
+    <Content Include="Areas\Student\Views\Student\PassedCourses.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -270,8 +275,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>

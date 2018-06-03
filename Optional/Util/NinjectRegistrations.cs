@@ -10,7 +10,7 @@ namespace Optional.Util
         {
             Bind<IStudentRepository>().To<StudentRepository>();
             Bind<ICourseRepository>().To<CourseRepository>();
-            Bind(typeof(IRepository<RegisterRepository>)).To(typeof(RegisterRepository));
+            Bind<IRegisterRepository>().To<RegisterRepository>();
             Bind(typeof(IRepository<LecturerRepository>)).To(typeof(LecturerRepository));
         }
     }

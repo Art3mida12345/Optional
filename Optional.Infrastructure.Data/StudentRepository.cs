@@ -44,7 +44,12 @@ namespace Optional.Infrastructure.Data
 
         public Student GetWithRegisters(string userName)
         {
-            return (Student)_db.Users.OfType<Student>().Include(s => s.Registers).First(u => u.UserName.Equals(userName));
+            return _db.Users.OfType<Student>().Include(s => s.Registers).First(u => u.UserName.Equals(userName));
+        }
+
+        public Student GetWithCourses(string userName)
+        {
+            return _db.Users.OfType<Student>().Include(s => s.Courses).FirstOrDefault(s => s.UserName == userName);
         }
     }
 }

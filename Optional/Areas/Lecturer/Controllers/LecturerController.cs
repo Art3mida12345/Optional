@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity.Owin;
 using Optional.Areas.Lecturer.Models;
+using Optional.Domain.Core;
 using Optional.Domain.Interfaces;
 using Optional.Infrastructure.Data;
 
@@ -15,10 +16,12 @@ namespace Optional.Areas.Lecturer.Controllers
     {
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private readonly ICourseRepository _courseRepository;
+        private readonly IRegisterRepository _registerRepository;
 
-        public LecturerController(ICourseRepository courseRepository)
+        public LecturerController(ICourseRepository courseRepository, IRegisterRepository registerRepository)
         {
             _courseRepository = courseRepository;
+            _registerRepository = registerRepository;
         }
 
         public ActionResult Index()
@@ -48,7 +51,7 @@ namespace Optional.Areas.Lecturer.Controllers
 
         public ActionResult Grade(int id)
         {
-            var students = _courseRepository.Get(id).Students.ToList();
+            var students = _courseRepository.GetWithStudents(id).Students.ToList();
 
             if (students.Count == 0)
             {
@@ -67,7 +70,7 @@ namespace Optional.Areas.Lecturer.Controllers
                     Gender = student.Gender,
                     Group = student.Group,
                     LastName = student.LastName,
-                    Mark = registers.First(r=>r.Student.UserName==student.UserName).Mark,
+                    Mark = registers.FirstOrDefault(r => r.Student.UserName==student.UserName)?.Mark,
                     UserName = student.UserName,
                     MiddleName = student.MiddleName,
                     PhoneNumber = student.PhoneNumber,
@@ -81,18 +84,48 @@ namespace Optional.Areas.Lecturer.Controllers
         [HttpGet]
         public ViewResult GradeMark(string name, int courseId)
         {
-            var register = _courseRepository.GetMarks(courseId).First(r => r.Student.UserName.Equals(name));
+            var register = _courseRepository.GetMarks(courseId).FirstOrDefault(r => r.Student.UserName.Equals(name));
             if (register != null)
             {
-                return View(register);
+                return View("EditRegister", new RegisterViewModel
+                {
+                    RegisterId = register.RegisterId, Mark = register.Mark
+                });
             }
 
-            return View();
+            return View("CreateRegister", new RegisterViewModel
+            {
+                CourseId = courseId,
+                StudentName = name
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateRegister(RegisterViewModel registerViewModel)
+        {
+            Register register = new Register
+            {
+                Mark = registerViewModel.Mark
+            };
+            _registerRepository.Create(register, registerViewModel.CourseId, registerViewModel.StudentName);
+            return RedirectToAction("Grade", new {id=registerViewModel.CourseId});
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRegister(RegisterViewModel registerViewModel)
+        {
+            Register register = _registerRepository.Get(registerViewModel.RegisterId);
+            register.Mark = registerViewModel.Mark;
+            _registerRepository.Update(register);
+            return RedirectToAction("Grade", new { id = register.Course.CourseId });
         }
 
         protected override void Dispose(bool disposing)
         {
             _courseRepository.Dispose();
+            _registerRepository.Dispose();
             base.Dispose(disposing);
         }
     }

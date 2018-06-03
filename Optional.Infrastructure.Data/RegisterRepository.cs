@@ -1,45 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Data.Entity;
+using System.Linq;
 using Optional.Domain.Core;
 using Optional.Domain.Interfaces;
 
 namespace Optional.Infrastructure.Data
 {
-    public class RegisterRepository:IRepository<Register>
+    public class RegisterRepository:IRegisterRepository
     {
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        private readonly ApplicationContext _db;
 
-        public IEnumerable<Register> GetAll()
+        public RegisterRepository()
         {
-            throw new NotImplementedException();
+            _db=new ApplicationContext();
         }
 
         public Register Get(int id)
         {
-            throw new NotImplementedException();
+            return _db.Registers.Include(r=>r.Course).First(r=>r.RegisterId==id);
         }
 
-        public IEnumerable<Register> Find(Func<Register, bool> predicate)
+        public void Create(Register item, int courseId, string studentName)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Create(Register item)
-        {
-            throw new NotImplementedException();
+            item.Student = _db.Users.Where(user => user.UserName == studentName).OfType<Student>().First();
+            item.Course = _db.Courses.Find(courseId);
+            _db.Registers.Add(item);
+            _db.SaveChanges();
         }
 
         public void Update(Register item)
         {
-            throw new NotImplementedException();
+            _db.Entry(item).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
-        public void Delete(int id)
+        public int GetMarkOfStudent(int courseId, string userName)
         {
-            throw new NotImplementedException();
+            var result = _db.Registers.Include(r => r.Student).Include(r => r.Course)
+                .FirstOrDefault(r => r.Student.UserName.Equals(userName) && r.Course.CourseId == courseId);
+            return result?.Mark ?? 0;
+        }
+
+        public void Dispose()
+        {
+            _db.Dispose();
         }
     }
 }

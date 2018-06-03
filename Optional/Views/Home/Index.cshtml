@@ -6,41 +6,93 @@
 
 <h2>Index</h2>
 
+@using (Html.BeginForm())
+{
+    <p>
+        Find by teacher or theme: @Html.TextBox("SearchString")
+        <input type="submit" value="Search"/>
+    </p>
+}
+
 <table class="table">
+    <tr class="text-center" style="font-weight: bold">
+        <td colspan="4">Course information</td>
+        <td colspan="3">Lecturer</td>
+        <td></td>
+    </tr>
     <tr>
         <th>
-            Тема
+            @Html.DisplayNameFor(model => model.Theme)
         </th>
         <th>
-            Название
+            @Html.ActionLink("Title", "Index", new {sortOrder = ViewBag.TitleSortParm})
         </th>
         <th>
-            Длительность в днях
+            @Html.ActionLink("Duration", "Index", new {sortOrder = ViewBag.DurationSortParm})
         </th>
         <th>
-            Дата начала
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lecturer.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lecturer.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lecturer.MiddleName)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Theme)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Duration)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.ActionLink("Записаться", "EnrollForCourse", new {controller="Student", area="Student", id=item.CourseId}, new { id=item.CourseId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Theme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @item.StartDate.ToShortDateString()
+            </td>
+            @if (item.Lecturer != null)
+            {
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Lecturer.LastName)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Lecturer.FirstName)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Lecturer.MiddleName)
+                </td>
+            }
+            else
+            {
+                <td class="text-center">—</td>
+                <td class="text-center">—</td>
+                <td class="text-center">—</td>
+            }
+
+
+            @if (item.StartDate.CompareTo(DateTime.Now) >= 0)
+            {
+                <td>
+                    @Html.ActionLink("EnrollForCourse", "EnrollForCourse",
+                        new {controller = "Student", area = "Student", id = item.CourseId},
+                        new {id = item.CourseId})
+                </td>
+            }
+            else
+            {
+                <td>The entry is over</td>
+            }
+        </tr>
+    }
 
 </table>

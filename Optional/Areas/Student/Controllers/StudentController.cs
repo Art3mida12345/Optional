@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,11 +19,14 @@ namespace Optional.Areas.Student.Controllers
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private readonly ICourseRepository _courseRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IRegisterRepository _registerRepository;
 
-        public StudentController(ICourseRepository courseRepository, IStudentRepository studentRepository)
+        public StudentController(ICourseRepository courseRepository, IStudentRepository studentRepository,
+            IRegisterRepository registerRepository)
         {
             _courseRepository = courseRepository;
             _studentRepository = studentRepository;
+            _registerRepository = registerRepository;
         }
 
         public ActionResult Index()
@@ -32,11 +36,11 @@ namespace Optional.Areas.Student.Controllers
             {
                 if (User.IsInRole("active"))
                 {
-                    ViewBag.Active = "Профиль активен.";
+                    ViewBag.Active = "Profile is active";
                     return View(user);
                 }
 
-                ViewBag.Active = "Профиль заблокирован администратором.";
+                ViewBag.Active = "Profile is blocked by Admin";
                 return View(user);
             }
 
@@ -58,13 +62,12 @@ namespace Optional.Areas.Student.Controllers
                             UserManager.Update(user);
                     }
                 }
+                else
+                {
+                    return RedirectToAction("Index", new {controller = "Home", area = ""});
+                }
             }
-            else
-            {
-                return RedirectToAction("Login", new {controller = "Account", area = ""});
-            }
-
-            return RedirectToAction("Index", new { controller = "Home", area="" });
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -135,7 +138,9 @@ namespace Optional.Areas.Student.Controllers
             Domain.Core.Student user = _studentRepository.Get(User.Identity.Name);
             if (user != null)
             {
-                var courses = user.Courses.Where(course => course.StartDate.CompareTo(DateTime.Now) == -1).ToList();
+                var courses = user.Courses.Where(course =>
+                    course.StartDate.CompareTo(DateTime.Now) <= 0 &&
+                    course.StartDate.AddDays(course.Duration).CompareTo(DateTime.Now) >=1).ToList();
                 if (courses.Count == 0)
                 {
                     return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
@@ -149,10 +154,27 @@ namespace Optional.Areas.Student.Controllers
 
         public ActionResult PassedCourses()
         {
-            Domain.Core.Student user = _studentRepository.GetWithRegisters(User.Identity.Name);
+            Domain.Core.Student user = _studentRepository.GetWithCourses(User.Identity.Name);
             if (user != null)
             {
-                var registers = user.Registers.ToList();
+                var courses=new List<PassedCourse>();
+                var passedCourses = user.Courses
+                    .Where(c => c.StartDate.AddDays(c.Duration).CompareTo(DateTime.Now) <= 0).ToList();
+
+                foreach (var course in passedCourses)
+                {
+                    var mark = _registerRepository.GetMarkOfStudent(course.CourseId, user.UserName);
+                    courses.Add(new PassedCourse
+                    {
+                        CourseId = course.CourseId,
+                        Duration = course.Duration,
+                        Mark = (mark==0)? null: (int?)mark,
+                        StartDate = course.StartDate,
+                        Theme = course.Theme,
+                        Title = course.Title
+                    });
+                }
+                return View(courses);
             }
             return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
         }
@@ -161,6 +183,7 @@ namespace Optional.Areas.Student.Controllers
         {
             _courseRepository.Dispose();
             _studentRepository.Dispose();
+            _registerRepository.Dispose();
             base.Dispose(d);
         }
     }

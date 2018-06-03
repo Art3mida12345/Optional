@@ -26,6 +26,11 @@ namespace Optional.Infrastructure.Data
             return _db.Courses.Include(c=>c.Lecturer).ToList();
         }
 
+        public Course GetWithStudents(int id)
+        {
+            return _db.Courses.Include(c=>c.Students).First(c => c.CourseId==id);
+        }
+
         public Course Get(int id)
         {
             return _db.Courses.Find(id);

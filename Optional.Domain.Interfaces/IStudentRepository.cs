@@ -11,5 +11,6 @@ namespace Optional.Domain.Interfaces
         IEnumerable<Student> Find(Func<Student, bool> predicate);
         void Update(Student item);
         Student GetWithRegisters(string userName);
+        Student GetWithCourses(string userName);
     }
 }

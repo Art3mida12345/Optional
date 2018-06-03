@@ -3,43 +3,44 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Факультатив</title>
+    <title>@ViewBag.Title - Optional.com</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("Факультатив", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Добавить преподователя", "RegisterLecturer", "Admin")</li>
-                <li>@Html.ActionLink("Добавить курс", "CreateCourse", "Admin")</li>
-                <li> @Html.ActionLink("Заблокировать/Разблокировать студента", "BlockUnblockStudent", "Admin")</li>
-                <li>@Html.ActionLink("Список преподователей", "LecturerList", "Admin")</li>
-                <li>@Html.ActionLink("Список курсов", "CourseList", "Admin")</li>
-            </ul>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Optional", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Register Lecturer", "RegisterLecturer", "Admin")</li>
+                    <li>@Html.ActionLink("Create Course", "CreateCourse", "Admin")</li>
+                    <li> @Html.ActionLink("Block/Unblock students", "BlockUnblockStudent", "Admin")</li>
+                    <li>@Html.ActionLink("List of lecturers", "LecturerList", "Admin")</li>
+                    <li>@Html.ActionLink("List of courses", "CourseList", "Admin")</li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container body-content">
-    @RenderBody()
-    <hr/>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Факультатив</p>
-    </footer>
-</div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Optional.com</p>
+        </footer>
+    </div>
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
