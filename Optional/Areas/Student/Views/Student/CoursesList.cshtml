@@ -29,7 +29,7 @@
             @Html.DisplayFor(modelItem => item.Duration)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
+            @item.StartDate.ToShortDateString()
         </td>
         <td>
             @if (item.Lecturer != null)

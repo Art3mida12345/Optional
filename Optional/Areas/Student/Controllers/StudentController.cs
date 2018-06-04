@@ -122,7 +122,7 @@ namespace Optional.Areas.Student.Controllers
 
         public ActionResult NotStartedCourses()
         {
-            Domain.Core.Student user = _studentRepository.Get(User.Identity.Name);
+            Domain.Core.Student user = _studentRepository.GetWithCourses(User.Identity.Name);
             if (user != null)
             {
                 var courses = user.Courses.Where(course => course.StartDate.CompareTo(DateTime.Now) == 1).ToList();
@@ -139,7 +139,7 @@ namespace Optional.Areas.Student.Controllers
 
         public ActionResult StartedCourses()
         {
-            Domain.Core.Student user = _studentRepository.Get(User.Identity.Name);
+            Domain.Core.Student user = _studentRepository.GetWithCourses(User.Identity.Name);
             if (user != null)
             {
                 var courses = user.Courses.Where(course =>

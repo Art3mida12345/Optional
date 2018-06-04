@@ -80,7 +80,7 @@
             @Html.DisplayFor(modelItem => item.Mark)
         </td>
         <td>
-            @Html.ActionLink("Поставить оценку", "GradeMark", new { name=item.UserName, courseId=ViewBag.CourseId })
+            @Html.ActionLink("Grade Mark", "GradeMark", new { name=item.UserName, courseId=ViewBag.CourseId })
         </td>
     </tr>
 }

@@ -1,11 +1,5 @@
 ﻿@model IEnumerable<Optional.Domain.Core.Course>
 
-@{
-    ViewBag.Title = "CourseList";
-}
-
-<h2>CourseList</h2>
-
 <table class="table">
     <tr>
         <th>
@@ -35,10 +29,13 @@
             @Html.DisplayFor(modelItem => item.Duration)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
+            @item.StartDate.ToShortDateString()
         </td>
         <td>
-            @((item.StartDate.AddDays(item.Duration)).CompareTo(DateTime.Now) <= 0 ? Html.ActionLink("Выставить оценки", "Grade", new {id = item.CourseId}))
+            @if (item.StartDate.AddDays(item.Duration).CompareTo(DateTime.Now) <= 0)
+            {
+                @Html.ActionLink("Grade Marks", "Grade", new {id = item.CourseId})
+            }
         </td>
     </tr>
 }

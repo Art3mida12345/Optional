@@ -55,9 +55,23 @@ namespace Optional.Infrastructure.Data
 
         public void Delete(int id)
         {
-            Course student = _db.Courses.Find(id);
-            if (student != null)
-                _db.Courses.Remove(student);
+            var registers = _db.Registers.Include(r=>r.Course).Where(r => r.Course.CourseId == id).ToArray();
+
+            if (registers.Length != 0)
+            {
+                _db.Registers.RemoveRange(registers);
+            }
+
+            //var students = _db.Users.OfType<Student>().Include(s => s.Courses).ToList();
+            //foreach (var student in students)
+            //{
+            //    var course = student.Courses.FirstOrDefault(c => c.CourseId == id);
+            //    if (course != null)
+            //    {
+            //        student.Courses.Remove(course);
+            //    }
+            //}
+            _db.Entry(_db.Courses.Find(id)).State = EntityState.Deleted;
             _db.SaveChanges();
         }
 
