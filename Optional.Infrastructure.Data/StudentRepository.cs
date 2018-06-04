@@ -28,7 +28,7 @@ namespace Optional.Infrastructure.Data
 
         public Student Get(string userName)
         {
-            return (Student) _db.Users.OfType<Student>().Include(s=>s.Courses).First(u => u.UserName.Equals(userName));
+            return _db.Users.OfType<Student>().FirstOrDefault(s=>s.UserName==userName);
         }
 
         public IEnumerable<Student> Find(Func<Student, bool> predicate)

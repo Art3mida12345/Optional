@@ -16,5 +16,6 @@ namespace Optional.Domain.Interfaces
         void AddStudentToCourse(string student, int coirseId);
         IEnumerable<Register> GetMarks(int courseId);
         Course GetWithStudents(int id);
+        Course GetWithLecturer(int courseId);
     }
 }

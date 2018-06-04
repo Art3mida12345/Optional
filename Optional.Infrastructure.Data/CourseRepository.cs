@@ -23,7 +23,7 @@ namespace Optional.Infrastructure.Data
 
         public IEnumerable<Course> GetAll()
         {
-            return _db.Courses.Include(c=>c.Lecturer).ToList();
+            return _db.Courses.Include(c => c.Lecturer).ToList();
         }
 
         public Course GetWithStudents(int id)
@@ -85,6 +85,11 @@ namespace Optional.Infrastructure.Data
         public IEnumerable<Register> GetMarks(int courseId)
         {
             return _db.Registers.Include(r=>r.Student).Where(r => r.Course.CourseId == courseId).ToList();
+        }
+
+        public Course GetWithLecturer(int courseId)
+        {
+            return _db.Courses.Include(c => c.Lecturer).FirstOrDefault(c => c.CourseId == courseId);
         }
     }
 }

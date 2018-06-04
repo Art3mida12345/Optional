@@ -1,14 +1,13 @@
-﻿@model Optional.Domain.Core.Student
+﻿@model Optional.Domain.Core.Lecturer
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "LecturerDetails";
 }
 
-<h2>Student HomePage</h2>
+<h2>LecturerDetails</h2>
 
 <div>
-    <h4>Student: @Model.UserName</h4>
-    <h4>@ViewBag.Active</h4>
+    <h4>Lecturer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -68,28 +67,12 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Group)
+            @Html.DisplayNameFor(model => model.Department)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Group)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.YearOfStudy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YearOfStudy)
+            @Html.DisplayFor(model => model.Department)
         </dd>
 
     </dl>
-</div>
-<div>
-    <p>Not started courses:</p>
-    @{ Html.RenderAction("NotStartedCourses"); }
-    <p>Started courses:</p>
-    @{ Html.RenderAction("StartedCourses"); }
-    <p>Passed Courses:</p>
-    @{ Html.RenderAction("PassedCourses"); }
 </div>

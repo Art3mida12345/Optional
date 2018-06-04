@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity.Owin;
+using NLog;
 using Optional.Areas.Lecturer.Models;
 using Optional.Domain.Core;
 using Optional.Domain.Interfaces;
@@ -17,6 +18,7 @@ namespace Optional.Areas.Lecturer.Controllers
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private readonly ICourseRepository _courseRepository;
         private readonly IRegisterRepository _registerRepository;
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public LecturerController(ICourseRepository courseRepository, IRegisterRepository registerRepository)
         {
@@ -31,6 +33,7 @@ namespace Optional.Areas.Lecturer.Controllers
             {
                 return View(user);
             }
+            _logger.Warn("Index method of controller Lecturer: user=null, user received HttpUnauthorizedResult");
 
             return HttpNotFound();
         }
@@ -43,10 +46,16 @@ namespace Optional.Areas.Lecturer.Controllers
                 var courses = _courseRepository.GetAll().ToList();
                 courses = courses.Where(course => course.Lecturer.IfNotNull(l => l.UserName.Equals(user.UserName)))
                     .ToList();
-                if (courses.Count!=0) return PartialView(courses);
+                if (courses.Count != 0)
+                {
+                    return PartialView(courses);
+                }
+
+                return new ContentResult { Content = "<p>Вы не закреплены ни за одним курсом.</p>" };
             }
 
-            return new ContentResult{Content = "<p>Вы не закреплены ни за одним курсом.</p>"};
+            _logger.Warn("CourseList method of controller Lecturer: user=null, user received HttpUnauthorizedResult");
+            return HttpNotFound();
         }
 
         public ActionResult Grade(int id)

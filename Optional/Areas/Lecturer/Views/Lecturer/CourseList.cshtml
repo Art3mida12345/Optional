@@ -38,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.StartDate)
         </td>
         <td>
-            @((item.StartDate.AddDays(item.Duration)).CompareTo(DateTime.Now) <= 0 ? Html.ActionLink("Выставить оценки", "Grade", new {id = item.CourseId}) : Html.ActionLink("Details", "Details", new {id = item.CourseId}))
+            @((item.StartDate.AddDays(item.Duration)).CompareTo(DateTime.Now) <= 0 ? Html.ActionLink("Выставить оценки", "Grade", new {id = item.CourseId}))
         </td>
     </tr>
 }

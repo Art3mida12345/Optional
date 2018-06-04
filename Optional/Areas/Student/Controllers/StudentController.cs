@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using NLog;
 using Optional.Areas.Student.Models;
 using Optional.Domain.Core;
 using Optional.Domain.Interfaces;
@@ -16,7 +17,10 @@ namespace Optional.Areas.Student.Controllers
     [Authorize(Roles = "student")]
     public class StudentController : Controller
     {
-        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private ApplicationUserManager UserManager =>
+            HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
         private readonly ICourseRepository _courseRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IRegisterRepository _registerRepository;
@@ -43,7 +47,7 @@ namespace Optional.Areas.Student.Controllers
                 ViewBag.Active = "Profile is blocked by Admin";
                 return View(user);
             }
-
+            _logger.Warn("Index method of controller Student: user=null, user received HttpNotFound");
             return HttpNotFound();
         }
 
@@ -58,15 +62,17 @@ namespace Optional.Areas.Student.Controllers
                     var course = _courseRepository.Get(id);
                     if (course != null)
                     {
-                            _courseRepository.AddStudentToCourse(user.UserName, id);
-                            UserManager.Update(user);
+                        _courseRepository.AddStudentToCourse(user.UserName, id);
+                        UserManager.Update(user);
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Index", new {controller = "Home", area = ""});
+                    _logger.Warn("EnrollForCourse method of controller Student: user=null, user received HttpUnauthorizedResult");
+                    return new HttpUnauthorizedResult();
                 }
             }
+
             return RedirectToAction("Index");
         }
 
@@ -93,23 +99,21 @@ namespace Optional.Areas.Student.Controllers
                     MiddleName = studentView.MiddleName,
                     PhoneNumber = studentView.PhoneNumber,
                     UserName = studentView.UserName,
-                    YearOfStudy = studentView.YearOfStudy
+                    YearOfStudy = studentView.YearOfStudy,
+                    Email = studentView.Email
                 };
                 var result = await UserManager.CreateAsync(student, studentView.Password);
 
                 if (result.Succeeded)
                 {
-                    //RoleManager.Create(new ApplicationRole {Name = "student"});
-                    //RoleManager.Create(new ApplicationRole {Name = "active"});
-
                     UserManager.AddToRoles(student.Id, "student", "active");
 
                     return RedirectToAction("Login", "Account", new {area = ""});
                 }
-
                 foreach (string error in result.Errors)
                 {
                     ModelState.AddModelError("", error);
+                    _logger.Error("Register method of controller Student: Error creating a user.", error);
                 }
             }
 
@@ -121,16 +125,16 @@ namespace Optional.Areas.Student.Controllers
             Domain.Core.Student user = _studentRepository.Get(User.Identity.Name);
             if (user != null)
             {
-                var courses = user.Courses.Where(course => course.StartDate.CompareTo(DateTime.Now)==1).ToList();
+                var courses = user.Courses.Where(course => course.StartDate.CompareTo(DateTime.Now) == 1).ToList();
                 if (courses.Count == 0)
                 {
-                    return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
+                    return new ContentResult {Content = "<p>There are no such courses.</p>"};
                 }
 
-                return PartialView("CoursesList",courses);
+                return PartialView("CoursesList", courses);
             }
 
-            return new ContentResult{Content = "<p>Таких курсов нет.</p>"};
+            return new ContentResult {Content = "<p>There are no such courses.</p>"};
         }
 
         public ActionResult StartedCourses()
@@ -140,16 +144,16 @@ namespace Optional.Areas.Student.Controllers
             {
                 var courses = user.Courses.Where(course =>
                     course.StartDate.CompareTo(DateTime.Now) <= 0 &&
-                    course.StartDate.AddDays(course.Duration).CompareTo(DateTime.Now) >=1).ToList();
+                    course.StartDate.AddDays(course.Duration).CompareTo(DateTime.Now) >= 1).ToList();
                 if (courses.Count == 0)
                 {
-                    return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
+                    return new ContentResult {Content = "There are no such courses.</p>"};
                 }
 
                 return PartialView("CoursesList", courses);
             }
 
-            return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
+            return new ContentResult {Content = "<p>There are no such courses.</p>"};
         }
 
         public ActionResult PassedCourses()
@@ -157,7 +161,7 @@ namespace Optional.Areas.Student.Controllers
             Domain.Core.Student user = _studentRepository.GetWithCourses(User.Identity.Name);
             if (user != null)
             {
-                var courses=new List<PassedCourse>();
+                var courses = new List<PassedCourse>();
                 var passedCourses = user.Courses
                     .Where(c => c.StartDate.AddDays(c.Duration).CompareTo(DateTime.Now) <= 0).ToList();
 
@@ -168,15 +172,91 @@ namespace Optional.Areas.Student.Controllers
                     {
                         CourseId = course.CourseId,
                         Duration = course.Duration,
-                        Mark = (mark==0)? null: (int?)mark,
+                        Mark = (mark == 0) ? null : (int?) mark,
                         StartDate = course.StartDate,
                         Theme = course.Theme,
-                        Title = course.Title
+                        Title = course.Title,
+                        Lecturer = _courseRepository.GetWithLecturer(course.CourseId).Lecturer
                     });
                 }
-                return View(courses);
+
+                return PartialView(courses);
             }
-            return new ContentResult { Content = "<p>Таких курсов нет.</p>" };
+
+            return new ContentResult {Content = "<p>There are no such courses.</p>"};
+        }
+
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            Domain.Core.Student student = _studentRepository.Get(User.Identity.Name);
+            if (student != null)
+            {
+                StudentEditModel model = new StudentEditModel
+                {
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    MiddleName = student.MiddleName,
+                    BirthDate = student.BirthDate,
+                    PhoneNumber = student.PhoneNumber,
+                    Group = student.Group,
+                    YearOfStudy = student.YearOfStudy,
+                    Email = student.Email
+                };
+                return View(model);
+            }
+            return RedirectToAction("Login", new {area="", controller="Account"});
+        }
+
+        [HttpPost]
+        public ActionResult Edit(StudentEditModel model)
+        {
+            try
+            {
+                Domain.Core.Student student = _studentRepository.Get(User.Identity.Name);
+                if (student != null)
+                {
+                    student.FirstName = model.FirstName;
+                    student.MiddleName = model.MiddleName;
+                    student.Group = model.Group;
+                    student.YearOfStudy = model.YearOfStudy;
+                    student.BirthDate = model.BirthDate;
+                    student.Email = model.Email;
+                    student.LastName = model.LastName;
+                    student.PhoneNumber = model.PhoneNumber;
+
+                    try
+                    {
+                        _studentRepository.Update(student);
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.Error(ex, "Edit (POST) method of controller Student: Error edit a user.");
+                    }
+
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError("", @"User isn`t found");
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", @"Something went wrong");
+                _logger.Error(ex, "Edit (POST) method of controller Student: Error edit a user.", ex);
+            }
+
+            return View(model);
+        }
+
+        public ActionResult LecturerDetails(int id)
+        {
+            Course course = _courseRepository.GetWithLecturer(id);
+            if (course != null)
+            {
+                return View(course.Lecturer);
+            }
+            _logger.Warn("LecturerDetails method of controller Student: Course wasn`t found. User received HttpNotFound.");
+            return HttpNotFound();
         }
 
         protected override void Dispose(bool d)

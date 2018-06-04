@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using NLog;
 using Optional.Areas.Admin.Models;
 using Optional.Domain.Core;
 using Optional.Domain.Interfaces;
@@ -16,8 +17,9 @@ namespace Optional.Areas.Admin.Controllers
     public class AdminController : Controller
     {
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly ICourseRepository _courseRepository;
-        //private ApplicationRoleManager RoleManager=> HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+
         public AdminController(ICourseRepository course)
         {
             _courseRepository = course;
@@ -31,6 +33,7 @@ namespace Optional.Areas.Admin.Controllers
                 return View(user);
             }
 
+            _logger.Warn("Index method of controller Admin: user wasn`t found.");
             return View();
         }
 
@@ -53,7 +56,8 @@ namespace Optional.Areas.Admin.Controllers
                     Gender = model.Gender,
                     PhoneNumber = model.Phone,
                     UserName = model.Login,
-                    Department = model.Department
+                    Department = model.Department,
+                    Email = model.Email
                 };
 
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
@@ -66,6 +70,7 @@ namespace Optional.Areas.Admin.Controllers
                 foreach (string error in result.Errors)
                 {
                     ModelState.AddModelError("", error);
+                    _logger.Error("RegisterLecturer method of controller Admin: Error creating a user.", error);
                 }
             }
             return View(model);
@@ -89,22 +94,24 @@ namespace Optional.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateCourse(CourseViewModel course)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _courseRepository.Create(new Course
-            {
-                Duration = course.Duration,
-                StartDate = course.StartDate,
-                Theme = course.Theme,
-                Title = course.Title,
-            });
+                {
+                    Duration = course.Duration,
+                    StartDate = course.StartDate,
+                    Theme = course.Theme,
+                    Title = course.Title,
+                });
                 if (course.LecturerName != null)
                 {
-                    _courseRepository.AddLecturerToCourse(course.LecturerName, 
+                    _courseRepository.AddLecturerToCourse(course.LecturerName,
                         _courseRepository.GetAll().Last().CourseId);
                 }
+
                 return RedirectToAction("Index");
             }
+
             return View(course);
         }
 
@@ -223,6 +230,7 @@ namespace Optional.Areas.Admin.Controllers
             Course course = _courseRepository.Get(id);
             if (course == null)
             {
+                _logger.Warn("DeleteCourse method of controller Admin: Course wasn`t found.");
                 return HttpNotFound();
             }
             return View(course);
@@ -234,6 +242,7 @@ namespace Optional.Areas.Admin.Controllers
             Course course = _courseRepository.Get(id);
             if (course == null)
             {
+                _logger.Warn("DeleteCourseConfirmd method of controller Admin: Course wasn`t found.");
                 return HttpNotFound();
             }
             _courseRepository.Delete(id);

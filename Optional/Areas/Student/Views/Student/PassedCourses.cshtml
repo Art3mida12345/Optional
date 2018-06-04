@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<Optional.Areas.Student.Models.PassedCourse>
 
-@{
-    Layout = null;
-}
 <table class="table">
     <tr>
         <th>
@@ -41,7 +38,10 @@
             @Html.DisplayFor(modelItem => item.Mark)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.CourseId })
+            @if (item.Lecturer != null)
+            {
+                @Html.ActionLink("Details about lecturer", "LecturerDetails", new { id=item.CourseId })
+            }
         </td>
     </tr>
 }
