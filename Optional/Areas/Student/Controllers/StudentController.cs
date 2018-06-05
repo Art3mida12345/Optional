@@ -164,23 +164,25 @@ namespace Optional.Areas.Student.Controllers
                 var courses = new List<PassedCourse>();
                 var passedCourses = user.Courses
                     .Where(c => c.StartDate.AddDays(c.Duration).CompareTo(DateTime.Now) <= 0).ToList();
-
-                foreach (var course in passedCourses)
+                if (passedCourses.Count != 0)
                 {
-                    var mark = _registerRepository.GetMarkOfStudent(course.CourseId, user.UserName);
-                    courses.Add(new PassedCourse
+                    foreach (var course in passedCourses)
                     {
-                        CourseId = course.CourseId,
-                        Duration = course.Duration,
-                        Mark = (mark == 0) ? null : (int?) mark,
-                        StartDate = course.StartDate,
-                        Theme = course.Theme,
-                        Title = course.Title,
-                        Lecturer = _courseRepository.GetWithLecturer(course.CourseId).Lecturer
-                    });
-                }
+                        var mark = _registerRepository.GetMarkOfStudent(course.CourseId, user.UserName);
+                        courses.Add(new PassedCourse
+                        {
+                            CourseId = course.CourseId,
+                            Duration = course.Duration,
+                            Mark = (mark == 0) ? null : (int?) mark,
+                            StartDate = course.StartDate,
+                            Theme = course.Theme,
+                            Title = course.Title,
+                            Lecturer = _courseRepository.GetWithLecturer(course.CourseId).Lecturer
+                        });
+                    }
 
-                return PartialView(courses);
+                    return PartialView(courses);
+                }
             }
 
             return new ContentResult {Content = "<p>There are no such courses.</p>"};

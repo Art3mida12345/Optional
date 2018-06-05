@@ -220,6 +220,7 @@
     <Compile Include="Models\CourseViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\MyDateAttribute.cs" />
     <Compile Include="Util\NinjectRegistrations.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -321,17 +322,9 @@
       <Project>{c030257f-8a8b-484b-a951-94c3ff567026}</Project>
       <Name>Optional.Domain.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Optional.Infrastructure.Business\Optional.Infrastructure.Business.csproj">
-      <Project>{cb1b7c4f-48fb-43ec-9435-063c2c336c15}</Project>
-      <Name>Optional.Infrastructure.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Optional.Infrastructure.Data\Optional.Infrastructure.Data.csproj">
       <Project>{136a277a-c245-46cf-a1d0-c55677542fb3}</Project>
       <Name>Optional.Infrastructure.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Optional.Services.Interfaces\Optional.Services.Interfaces.csproj">
-      <Project>{3fb127c6-84bb-4785-ad8a-78ea6bd3667c}</Project>
-      <Name>Optional.Services.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

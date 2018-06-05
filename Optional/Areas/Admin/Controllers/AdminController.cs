@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -96,12 +97,13 @@ namespace Optional.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var duration = course.EndDate - course.StartDate;
                 _courseRepository.Create(new Course
                 {
-                    Duration = course.Duration,
+                    Duration = duration.Days,
                     StartDate = course.StartDate,
                     Theme = course.Theme,
-                    Title = course.Title,
+                    Title = course.Title
                 });
                 if (course.LecturerName != null)
                 {
@@ -112,6 +114,8 @@ namespace Optional.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
+            var users = UserManager.Users.OfType<Domain.Core.Lecturer>();
+            ViewBag.Lecturers = new SelectList(users, "UserName", "UserName");
             return View(course);
         }
 
@@ -194,20 +198,29 @@ namespace Optional.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            Course course = _courseRepository.Get((int) id);
-            if (course != null)
+            try
             {
-                CourseViewModel courseView = new CourseViewModel
+                Course course = _courseRepository.Get((int) id);
+                if (course != null)
                 {
-                    CourseId = course.CourseId,
-                    Duration = course.Duration,
-                    StartDate = course.StartDate,
-                    Theme = course.Theme,
-                    Title = course.Title
-                };
+                    CourseViewModel courseView = new CourseViewModel
+                    {
+                        CourseId = course.CourseId,
+                        EndDate = course.StartDate.AddDays(course.Duration),
+                        StartDate = course.StartDate,
+                        Theme = course.Theme,
+                        Title = course.Title
+                    };
 
-                return View(courseView);
+                    return View(courseView);
+                }
             }
+            catch(NullReferenceException ex)
+            {
+                _logger.Error("User recive HttpNotFound", ex);
+                return HttpNotFound();
+            }
+
             return HttpNotFound();
         }
 
@@ -215,8 +228,20 @@ namespace Optional.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCourse(CourseViewModel course)
         {
-            _courseRepository.Update(_courseRepository.Get(course.CourseId));
-            return RedirectToAction("CourseList");
+            if (ModelState.IsValid)
+            {
+                var duration = course.EndDate - course.StartDate;
+                var editCourse = _courseRepository.Get(course.CourseId);
+                editCourse.Duration = duration.Days;
+                editCourse.StartDate = course.StartDate;
+                editCourse.Title = course.Title;
+                editCourse.Theme = course.Theme;
+
+                _courseRepository.Update(editCourse);
+                return RedirectToAction("CourseList");
+            }
+
+            return View(course);
         }
 
         public ActionResult CourseList()
@@ -227,25 +252,42 @@ namespace Optional.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult DeleteCourse(int id)
         {
-            Course course = _courseRepository.Get(id);
-            if (course == null)
+            try
             {
-                _logger.Warn("DeleteCourse method of controller Admin: Course wasn`t found.");
+                Course course = _courseRepository.Get(id);
+                if (course == null)
+                {
+                    _logger.Warn("DeleteCourse method of controller Admin: Course wasn`t found.");
+                    return HttpNotFound();
+                }
+                return View(course);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex,"User recive model again");
                 return HttpNotFound();
             }
-            return View(course);
         }
 
         [HttpPost, ActionName("DeleteCourse")]
         public ActionResult DeleteCourseConfirmed(int id)
         {
-            Course course = _courseRepository.Get(id);
-            if (course == null)
+            try
             {
-                _logger.Warn("DeleteCourseConfirmd method of controller Admin: Course wasn`t found.");
-                return HttpNotFound();
+                Course course = _courseRepository.Get(id);
+                if (course == null)
+                {
+                    _logger.Warn("DeleteCourseConfirmd method of controller Admin: Course wasn`t found.");
+                    return HttpNotFound();
+                }
+
+                _courseRepository.Delete(id);
             }
-            _courseRepository.Delete(id);
+            catch (Exception ex)
+            {
+                _logger.Error(ex,"User Redirect and method not work");
+            }
+
             return RedirectToAction("CourseList");
         }
 
