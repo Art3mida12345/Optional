@@ -59,6 +59,7 @@ namespace Optional.Tests.Controllers
             AdminController controller = new AdminController(mock.Object);
             int? id = null;
             ActionResult result = controller.EditCourse(id) as ActionResult;
+
             Assert.AreEqual(result.GetType(),typeof(HttpNotFoundResult));
         }
 
@@ -67,9 +68,11 @@ namespace Optional.Tests.Controllers
         {
             var mock = new Mock<ICourseRepository>();
             int? id = 1;
+
             mock.Setup(c => c.Get(3)).Throws(new Exception());
             AdminController controller = new AdminController(mock.Object);
             ActionResult result = controller.EditCourse(1);
+
             Assert.AreEqual(result.GetType(), typeof(HttpNotFoundResult));
         }
 

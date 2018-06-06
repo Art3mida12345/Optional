@@ -147,7 +147,7 @@ namespace Optional.Areas.Student.Controllers
                     course.StartDate.AddDays(course.Duration).CompareTo(DateTime.Now) >= 1).ToList();
                 if (courses.Count == 0)
                 {
-                    return new ContentResult {Content = "There are no such courses.</p>"};
+                    return new ContentResult {Content = "<p>There are no such courses.</p>" };
                 }
 
                 return PartialView("CoursesList", courses);
@@ -191,23 +191,33 @@ namespace Optional.Areas.Student.Controllers
         [HttpGet]
         public ActionResult Edit()
         {
-            Domain.Core.Student student = _studentRepository.Get(User.Identity.Name);
-            if (student != null)
+            try
             {
-                StudentEditModel model = new StudentEditModel
+                Domain.Core.Student student = _studentRepository.Get(User.Identity.Name);
+                if (student != null)
                 {
-                    FirstName = student.FirstName,
-                    LastName = student.LastName,
-                    MiddleName = student.MiddleName,
-                    BirthDate = student.BirthDate,
-                    PhoneNumber = student.PhoneNumber,
-                    Group = student.Group,
-                    YearOfStudy = student.YearOfStudy,
-                    Email = student.Email
-                };
-                return View(model);
+                    StudentEditModel model = new StudentEditModel
+                    {
+                        FirstName = student.FirstName,
+                        LastName = student.LastName,
+                        MiddleName = student.MiddleName,
+                        BirthDate = student.BirthDate,
+                        PhoneNumber = student.PhoneNumber,
+                        Group = student.Group,
+                        YearOfStudy = student.YearOfStudy,
+                        Email = student.Email
+                    };
+                    return View(model);
+                }
+
+                _logger.Warn("Get_Method of Student Controller user=null. User recive httpnotfound.");
+                return HttpNotFound();
             }
-            return RedirectToAction("Login", new {area="", controller="Account"});
+            catch (Exception ex)
+            {
+                _logger.Error(ex,"Student Redirect to LoginPage");
+                return HttpNotFound();
+            }
         }
 
         [HttpPost]
@@ -227,14 +237,7 @@ namespace Optional.Areas.Student.Controllers
                     student.LastName = model.LastName;
                     student.PhoneNumber = model.PhoneNumber;
 
-                    try
-                    {
-                        _studentRepository.Update(student);
-                    }
-                    catch(Exception ex)
-                    {
-                        _logger.Error(ex, "Edit (POST) method of controller Student: Error edit a user.");
-                    }
+                    _studentRepository.Update(student);
 
                     return RedirectToAction("Index");
                 }
@@ -252,13 +255,23 @@ namespace Optional.Areas.Student.Controllers
 
         public ActionResult LecturerDetails(int id)
         {
-            Course course = _courseRepository.GetWithLecturer(id);
-            if (course != null)
+            try
             {
-                return View(course.Lecturer);
+                Course course = _courseRepository.GetWithLecturer(id);
+                if (course != null)
+                {
+                    return View(course.Lecturer);
+                }
+
+                _logger.Warn(
+                    "LecturerDetails method of controller Student: Course wasn`t found. User received HttpNotFound.");
+                return HttpNotFound();
             }
-            _logger.Warn("LecturerDetails method of controller Student: Course wasn`t found. User received HttpNotFound.");
-            return HttpNotFound();
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "User recive HttpNotFound");
+                return HttpNotFound();
+            }
         }
 
         protected override void Dispose(bool d)

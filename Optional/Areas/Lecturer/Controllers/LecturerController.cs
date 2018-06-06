@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -60,34 +61,43 @@ namespace Optional.Areas.Lecturer.Controllers
 
         public ActionResult Grade(int id)
         {
-            var students = _courseRepository.GetWithStudents(id).Students.ToList();
-
-            if (students.Count == 0)
+            try
             {
-                return new ContentResult{Content = "<p>На курсе не зарегестрировано ни одного студента.</p>"};
-            }
+                var students = _courseRepository.GetWithStudents(id).Students.ToList();
 
-            var studentsWithMarks = new List<StudentWithMark>();
-            var registers = _courseRepository.GetMarks(id).ToList();
-            foreach (var student in students)
-            {
-                studentsWithMarks.Add(new StudentWithMark
+                if (students.Count == 0)
                 {
-                    BirthDate = student.BirthDate,
-                    Email = student.Email,
-                    FirstName = student.FirstName,
-                    Gender = student.Gender,
-                    Group = student.Group,
-                    LastName = student.LastName,
-                    Mark = registers.FirstOrDefault(r => r.Student.UserName==student.UserName)?.Mark,
-                    UserName = student.UserName,
-                    MiddleName = student.MiddleName,
-                    PhoneNumber = student.PhoneNumber,
-                    YearOfStudy = student.YearOfStudy
-                });
+                    return new ContentResult {Content = "<p>На курсе не зарегестрировано ни одного студента.</p>"};
+                }
+
+                var studentsWithMarks = new List<StudentWithMark>();
+                var registers = _courseRepository.GetMarks(id).ToList();
+                foreach (var student in students)
+                {
+                    studentsWithMarks.Add(new StudentWithMark
+                    {
+                        BirthDate = student.BirthDate,
+                        Email = student.Email,
+                        FirstName = student.FirstName,
+                        Gender = student.Gender,
+                        Group = student.Group,
+                        LastName = student.LastName,
+                        Mark = registers.FirstOrDefault(r => r.Student.UserName == student.UserName)?.Mark,
+                        UserName = student.UserName,
+                        MiddleName = student.MiddleName,
+                        PhoneNumber = student.PhoneNumber,
+                        YearOfStudy = student.YearOfStudy
+                    });
+                }
+
+                ViewBag.CourseId = id;
+                return View(studentsWithMarks);
             }
-            ViewBag.CourseId = id;
-            return View(studentsWithMarks);
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "User recive HttpNotFound");
+                return HttpNotFound();
+            }
         }
 
         [HttpGet]
