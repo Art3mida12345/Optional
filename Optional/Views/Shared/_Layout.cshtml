@@ -8,34 +8,29 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 @Html.ActionLink("Optional", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Student", "Index", new {area="Student", controller="Student"})</li>
+                    <li>@Html.ActionLink("Student", "Index", new { area = "Student", controller = "Student" })</li>
                     <li>@Html.ActionLink("Lecturer", "Index", new { area = "Lecturer", controller = "Lecturer" })</li>
-                    <li>@Html.ActionLink("Admin", "Index", new {area="Admin", controller="Admin"})</li>
-                    <li>@Html.ActionLink("LogOut", "Logout", new {area="", controller="Account"})</li>
-                    <li>@Html.ActionLink("LogIn", "Login", new {area="", controller="Account"})</li>
+                    <li>@Html.ActionLink("Admin", "Index", new { area = "Admin", controller = "Admin" })</li>
+                    <li>@Html.ActionLink("LogOut", "Logout", new { area = "", controller = "Account" })</li>
+                    <li>@Html.ActionLink("LogIn", "Login", new { area = "", controller = "Account" })</li>
                 </ul>
             </div>
         </div>
-    </div>
+    </header>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Optional.com</p>
-        </footer>
     </div>
+    <hr />
+    <footer>
+        <p class="text-center">&copy; @DateTime.Now.Year - Optional.com</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

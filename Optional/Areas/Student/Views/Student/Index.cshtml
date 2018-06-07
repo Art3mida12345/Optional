@@ -4,27 +4,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Student HomePage</h2>
+<h2 class="text-center decor-font" style="font-size: 2em">Student HomePage:@Model.UserName</h2>
+<h4 class="text-center decor-font" style="font-size: 2em">@ViewBag.Active</h4>
 
-<div>
-    <h4>Student: @Model.UserName</h4>
-    <h4>@ViewBag.Active</h4>
+<div class="student-index">
     <hr />
     <dl class="dl-horizontal">
+
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.LastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
+            @Html.DisplayFor(model => model.LastName)
         </dd>
 
         <dt>
@@ -41,14 +33,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.MiddleName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
         </dd>
 
         <dt>
@@ -83,13 +67,29 @@
             @Html.DisplayFor(model => model.YearOfStudy)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
     </dl>
 </div>
 <div>
-    <p>Not started courses:</p>
+    <p class="decor-font">Not started courses:</p>
     @{ Html.RenderAction("NotStartedCourses"); }
-    <p>Started courses:</p>
+    <p class="decor-font">Started courses:</p>
     @{ Html.RenderAction("StartedCourses"); }
-    <p>Passed Courses:</p>
+    <p class="decor-font">Passed Courses:</p>
     @{ Html.RenderAction("PassedCourses"); }
 </div>

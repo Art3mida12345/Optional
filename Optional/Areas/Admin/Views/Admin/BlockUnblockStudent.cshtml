@@ -1,62 +1,61 @@
-﻿@using Optional.Areas.Admin.Models
+﻿@model IEnumerable<Optional.Areas.Admin.Models.BlockStudentViewModel>
 
 @{
-    ViewBag.Title = "BlockUnblockStudent";
+    ViewBag.Title = "Block/Unblock student";
 }
 
-<h2>BlockUnblockStudent</h2>
+<h2 class="decor-font">Block/Unblock Student </h2>
 
-<div>
-    <h4>BlockStudentViewModel</h4>
-    <hr />
-    @foreach (BlockStudentViewModel student in ViewBag.Students)
-    {
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayName(student.FirstName)
-            </dt>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Group)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearOfStudy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Blocked)
+        </th>
+    </tr>
 
-            <dd>
-                @Html.Display(student.FirstName)
-            </dd>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Group)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YearOfStudy)
+        </td>
+        <td>
+            @(item.Blocked ? Html.ActionLink("Block", "BlockStudent", new { name = item.UserName }, new { @class = "block" })
+    : Html.ActionLink("Unblock", "UnblockStudent", new { name = item.UserName }, new { @class = "unblock" }))
+        </td>
+    </tr>
+}
 
-            <dt>
-                @Html.DisplayName(student.MiddleName)
-            </dt>
-
-            <dd>
-                @Html.Display(student.MiddleName)
-            </dd>
-
-            <dt>
-                @Html.DisplayName(student.LastName)
-            </dt>
-
-            <dd>
-                @Html.Display(student.LastName)
-            </dd>
-
-            <dt>
-                @Html.DisplayName(student.Group)
-            </dt>
-
-            <dd>
-                @Html.Display(student.Group)
-            </dd>
-
-            <dt>
-                @Html.DisplayName(student.YearOfStudy.ToString())
-            </dt>
-
-            <dd>
-                @Html.Display(student.YearOfStudy.ToString())
-            </dd>
-
-        </dl>
-        <p >
-        @(student.Blocked ? Html.ActionLink("Block", "BlockStudent", new {name = student.UserName}, new {@class = "block"})
-            : Html.ActionLink("Unblock", "UnblockStudent", new {name = student.UserName}, new {@class = "unblock"}))
-        @Html.ActionLink("Back to List", "Index")
-        </p>
-    }
-</div>
+</table>

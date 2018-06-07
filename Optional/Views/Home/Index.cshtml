@@ -4,13 +4,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Home Page</h2>
 
 @using (Html.BeginForm())
 {
     <p>
-        Find by teacher or theme: @Html.TextBox("SearchString")
-        <input type="submit" value="Search"/>
+        Find by lecturer or theme: @Html.TextBox("SearchString")
+        <input class="decor-font" type="submit" value="Search"/>
     </p>
 }
 
@@ -80,17 +80,17 @@
             }
 
 
-            @if (item.StartDate.CompareTo(DateTime.Now) >= 0)
+            @if (item.StartDate.CompareTo(DateTime.Now.Date) >= 0)
             {
                 <td>
-                    @Html.ActionLink("EnrollForCourse", "EnrollForCourse",
+                    @Html.ActionLink("Enroll for course", "EnrollForCourse",
                         new {controller = "Student", area = "Student", id = item.CourseId},
                         new {id = item.CourseId})
                 </td>
             }
             else
             {
-                <td>The entry is over</td>
+                <td>Entry is over</td>
             }
         </tr>
     }

@@ -4,12 +4,11 @@
     ViewBag.Title = "DeleteCourse";
 }
 
-<h2>DeleteCourse</h2>
+<h2 class="decor-font">Delete Course</h2>
 
 <div>
-    <h4>Course</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="text-left dl-horizontal my-dt">
         <dt>
             @Html.DisplayNameFor(model => model.Theme)
         </dt>
@@ -39,7 +38,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
+            @Model.StartDate.ToShortDateString()
         </dd>
 
     </dl>
@@ -47,6 +46,6 @@
 
 @using (Html.BeginForm())
 {
-    <input type="submit" value="Delete" />
+    <input type="submit" value="Delete" class="btn-block btn-my"/>
 }
 

@@ -158,8 +158,7 @@ namespace Optional.Areas.Admin.Controllers
                     });
                 }
 
-                ViewBag.Students = blockStudent;
-                return View();
+                return View(blockStudent);
             }
 
             return View("Index");
