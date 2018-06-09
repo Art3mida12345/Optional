@@ -52,7 +52,7 @@ namespace Optional.Areas.Lecturer.Controllers
                     return PartialView(courses);
                 }
 
-                return new ContentResult { Content = "<p>Вы не закреплены ни за одним курсом.</p>" };
+                return new ContentResult { Content = "<p>You are not assigned to any course.</p>" };
             }
 
             _logger.Warn("CourseList method of controller Lecturer: user=null, user received HttpUnauthorizedResult");
@@ -67,7 +67,7 @@ namespace Optional.Areas.Lecturer.Controllers
 
                 if (students.Count == 0)
                 {
-                    return new ContentResult {Content = "<p>На курсе не зарегестрировано ни одного студента.</p>"};
+                    return new ContentResult { Content = "<p>No student is registered on the course.</p>" };
                 }
 
                 var studentsWithMarks = new List<StudentWithMark>();
@@ -108,7 +108,8 @@ namespace Optional.Areas.Lecturer.Controllers
             {
                 return View("EditRegister", new RegisterViewModel
                 {
-                    RegisterId = register.RegisterId, Mark = register.Mark
+                    RegisterId = register.RegisterId,
+                    Mark = register.Mark
                 });
             }
 
@@ -128,7 +129,7 @@ namespace Optional.Areas.Lecturer.Controllers
                 Mark = registerViewModel.Mark
             };
             _registerRepository.Create(register, registerViewModel.CourseId, registerViewModel.StudentName);
-            return RedirectToAction("Grade", new {id=registerViewModel.CourseId});
+            return RedirectToAction("Grade", new { id = registerViewModel.CourseId });
         }
 
         [HttpPost]
@@ -139,6 +140,28 @@ namespace Optional.Areas.Lecturer.Controllers
             register.Mark = registerViewModel.Mark;
             _registerRepository.Update(register);
             return RedirectToAction("Grade", new { id = register.Course.CourseId });
+        }
+
+        [HttpGet]
+        public ActionResult ViewStudentsOfCourse(int courseId)
+        {
+            try
+            {
+                var students = _courseRepository.GetWithStudents(courseId).Students.ToList();
+                if (students.Count != 0)
+                {
+                    return View(students);
+                }
+                else
+                {
+                    return new ContentResult { Content = "<p>No student is registered on the course.</p>" };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "User recive httpnotfound.");
+                return HttpNotFound();
+            }
         }
 
         protected override void Dispose(bool disposing)

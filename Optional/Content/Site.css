@@ -51,9 +51,9 @@ textarea {
     text-align: center;
 }
 
-.block:hover{
+.block:hover {
     color: white;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 .unblock:hover {
@@ -65,7 +65,7 @@ footer {
     position: relative;
     height: 60px;
     width: 100%;
-    bottom:0;
+    bottom: 0;
 }
 
 .decor-font {
@@ -81,7 +81,7 @@ footer {
     right: 0;
     bottom: 0;
     left: 0;
-    margin:auto;
+    margin: auto;
 }
 
     .login a {
@@ -109,7 +109,7 @@ footer {
     font-style: normal;
 }
 
-.student-index dt{
+.student-index dt {
     text-align: left;
 }
 
@@ -120,12 +120,13 @@ footer {
 
 .edit-student label {
     float: left;
-    display:flex;
+    display: flex;
 }
 
 .edit-student input {
     margin-left: 36%;
 }
+
 .btn-my {
     color: white;
     background-color: #1997d4;

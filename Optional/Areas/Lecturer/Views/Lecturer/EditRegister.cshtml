@@ -4,14 +4,13 @@
     ViewBag.Title = "Edit Mark";
 }
 
-<h2>Edit Mark</h2>
+<h2 class="decor-font">Grade Mark - Edit</h2>
 
 @using (Html.BeginForm("EditRegister", "Lecturer", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model=>model.RegisterId)
+    @Html.HiddenFor(model => model.RegisterId)
     <div class="form-horizontal">
-        <h4>Register</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

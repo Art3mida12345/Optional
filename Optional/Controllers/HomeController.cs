@@ -33,9 +33,10 @@ namespace Optional.Controllers
                         var lecturer = c.Lecturer;
                         if (lecturer != null)
                         {
-                            if (c.Lecturer.LastName.Contains(searchString)
-                                || c.Lecturer.FirstName.Contains(searchString) ||
-                                c.Lecturer.MiddleName.Contains(searchString) ||
+                            var name = c.Lecturer.LastName + " " 
+                                + c.Lecturer.FirstName + " " + c.Lecturer.MiddleName;
+
+                            if (name.Contains(searchString) ||
                                 c.Theme.Contains(searchString))
                             {
                                 result.Add(c);

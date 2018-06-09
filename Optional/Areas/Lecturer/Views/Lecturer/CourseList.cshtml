@@ -36,6 +36,10 @@
             {
                 @Html.ActionLink("Grade Marks", "Grade", new {id = item.CourseId})
             }
+            else
+            {
+                @Html.ActionLink("Details", "ViewStudentsOfCourse", new { courseId=item.CourseId})
+            }
         </td>
     </tr>
 }

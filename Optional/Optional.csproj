@@ -269,6 +269,7 @@
     <Content Include="fonts\vanish.otf" />
     <Content Include="Areas\Admin\Views\Admin\BlockUnblockStudent.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\LecturerList.cshtml" />
+    <Content Include="Areas\Lecturer\Views\Lecturer\ViewStudentsOfCourse.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -9,8 +9,8 @@ namespace Optional.Areas.Lecturer.Models
         public int RegisterId { get; set; }
 
         [Required]
-        [Display(Name = "Оценка")]
-        [RegularExpression("[1-5]", ErrorMessage = "Оценка должна быть числом в диапазоне от 1 до 5.")]
+        [Display(Name = "Mark")]
+        [RegularExpression("[1-5]", ErrorMessage = "The mark must be a number between 1 and 5.")]
         public int Mark { get; set; }
 
         [HiddenInput(DisplayValue = false)]

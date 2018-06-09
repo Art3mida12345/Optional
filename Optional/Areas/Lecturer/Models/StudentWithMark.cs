@@ -5,25 +5,25 @@ namespace Optional.Areas.Lecturer.Models
 {
     public class StudentWithMark
     {
-        [Display(Name = "Оценка")]
+        [Display(Name = "Mark")]
         public int? Mark { get; set; }
-        [Display(Name = "Группа")]
+        [Display(Name = "Group")]
         public string Group { get; set; }
-        [Display(Name = "Год обучения")]
+        [Display(Name = "Year")]
         public int YearOfStudy { get; set; }
-        [Display(Name = "Имя")]
+        [Display(Name = "Name")]
         public string FirstName { get; set; }
-        [Display(Name = "Отчество")]
+        [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
-        [Display(Name = "Фамилия")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        [Display(Name = "Дата рождения")]
+        [Display(Name = "Birth Date")]
         public DateTime BirthDate { get; set; }
-        [Display(Name = "Пол")]
+        [Display(Name = "Gender")]
         public string Gender { get; set; }
-        [Display(Name = "Логин")]
+        [Display(Name = "Login")]
         public string UserName { get; set; }
-        [Display(Name = "Номер телефона")]
+        [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
     }
