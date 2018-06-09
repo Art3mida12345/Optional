@@ -84,17 +84,17 @@ footer {
     margin: auto;
 }
 
-    .login a {
-        font-size: 1em;
-        margin-left: 23px;
-    }
+.login a {
+    font-size: 1em;
+    margin-left: 23px;
+}
 
-    .login h2 {
-        font-size: 30px;
-        width: 119%;
-        font-family: 'Vanishing Boy BTN(RUS BY LYAJKA', Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 2.5em;
-    }
+.login h2 {
+    font-size: 30px;
+    width: 119%;
+    font-family: 'Vanishing Boy BTN(RUS BY LYAJKA', Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 2.5em;
+}
 
 .btn-login {
     width: 100%;

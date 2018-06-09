@@ -3266,13 +3266,13 @@ input[type="button"].btn-block {
 }
 
 .dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: normal;
-  line-height: 1.428571429;
-  color: #333333;
-  white-space: nowrap;
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #46B8FF;
+    white-space: nowrap;
 }
 
 .dropdown-menu > li > a:hover,
@@ -4544,12 +4544,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-toggle {
-  border-color: #333333;
+    border-color: #46B8FF;
 }
 
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:focus {
-  background-color: #333333;
+    background-color: #46B8FF;
 }
 
 .navbar-inverse .navbar-toggle .icon-bar {
@@ -4558,7 +4558,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
-  border-color: #101010;
+    border-color: #46B8FF;
 }
 
 .navbar-inverse .navbar-nav > .open > a,
