@@ -16,7 +16,7 @@
 
 <table class="table">
     <tr class="text-center" style="font-weight: bold">
-        <td colspan="4">Course information</td>
+        <td colspan="5">Course information</td>
         <td colspan="3">Lecturer</td>
         <td></td>
     </tr>
@@ -25,10 +25,13 @@
             @Html.DisplayNameFor(model => model.Theme)
         </th>
         <th>
-            @Html.ActionLink("Title", "Index", new {sortOrder = ViewBag.TitleSortParm})
+            @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParm })
         </th>
         <th>
-            @Html.ActionLink("Duration", "Index", new {sortOrder = ViewBag.DurationSortParm})
+            @Html.ActionLink("Duration", "Index", new { sortOrder = ViewBag.DurationSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Students", "Index", new { sortOrder = ViewBag.AmountOfStudentsSortParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.StartDate)
@@ -56,6 +59,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @item.Students.Count
             </td>
             <td>
                 @item.StartDate.ToShortDateString()

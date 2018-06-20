@@ -22,9 +22,10 @@ namespace Optional.Controllers
         {
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DurationSortParm = sortOrder == "Duration" ? "duration_desc" : "Duration";
+            ViewBag.AmountOfStudentsSortParm = sortOrder == "Amount" ? "amount_desc" : "Amount";
             try
             {
-                var courses = _courseRepository.GetAll();
+                var courses = _courseRepository.GetAllWithLecturerAndStudents();
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     var result = new List<Course>();
@@ -62,6 +63,12 @@ namespace Optional.Controllers
                         break;
                     case "duration_desc":
                         courses = courses.OrderByDescending(c => c.Duration);
+                        break;
+                    case "Amount":
+                        courses = courses.OrderBy(c => c.Students.Count);
+                        break;
+                    case "amount_desc":
+                        courses = courses.OrderByDescending(c => c.Students.Count);
                         break;
                     default:
                         courses = courses.OrderBy(c => c.Title);

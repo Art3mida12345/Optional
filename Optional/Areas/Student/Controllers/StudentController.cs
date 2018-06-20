@@ -131,6 +131,11 @@ namespace Optional.Areas.Student.Controllers
                     return new ContentResult {Content = "<p>There are no such courses.</p>"};
                 }
 
+                foreach (var course in courses)
+                {
+                    course.Lecturer = _courseRepository.GetWithLecturer(course.CourseId)?.Lecturer;
+                }
+
                 return PartialView("CoursesList", courses);
             }
 
@@ -148,6 +153,11 @@ namespace Optional.Areas.Student.Controllers
                 if (courses.Count == 0)
                 {
                     return new ContentResult {Content = "<p>There are no such courses.</p>" };
+                }
+
+                foreach (var course in courses)
+                {
+                    course.Lecturer = _courseRepository.GetWithLecturer(course.CourseId)?.Lecturer;
                 }
 
                 return PartialView("CoursesList", courses);

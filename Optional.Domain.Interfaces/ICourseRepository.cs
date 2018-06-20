@@ -7,6 +7,7 @@ namespace Optional.Domain.Interfaces
     public interface ICourseRepository:IDisposable
     {
         IEnumerable<Course> GetAll();
+        IEnumerable<Course> GetAllWithLecturerAndStudents();
         Course Get(int id);
         IEnumerable<Course> Find(Func<Course, Boolean> predicate);
         void Create(Course item);

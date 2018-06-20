@@ -3,13 +3,15 @@
     ViewBag.Title = "AddLecturerToCourse";
 }
 
-<h2>AddLecturerToCourse</h2>
-
-@foreach (var course in Model)
-{
-    <p>@course.Title</p>
-    <p>@course.Theme</p>
-    <p>@course.StartDate.ToShortDateString()</p>
-    <p>@course.Duration</p>
-    @Html.ActionLink("ВЫбрать курс","AddLecturerToCourse", new {courseId=course.CourseId, lecturerName=ViewBag.Lecturer})
-}
+<h2 class="decor-font text-center">Add Lecturer To Course</h2>
+<div class="tab">
+    @foreach (var course in Model)
+    {
+        <div class="tabs-content">
+            <p>@course.Title</p>
+            <p>@course.Theme</p>
+            <p>@course.StartDate.ToShortDateString(), @course.Duration days</p>
+            @Html.ActionLink("Select course", "AddLecturerToCourse", new { courseId = course.CourseId, lecturerName = ViewBag.Lecturer })
+        </div>
+    }
+</div>

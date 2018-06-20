@@ -1,15 +1,14 @@
 ﻿@model Optional.Domain.Core.Lecturer
 
 @{
-    ViewBag.Title = "LecturerDetails";
+    ViewBag.Title = "Lecturer Details";
 }
 
-<h2>LecturerDetails</h2>
+<h2 class="decor-font text-center">Lecturer - Infopage</h2>
 
 <div>
-    <h4>Lecturer</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal student-index">
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
@@ -55,7 +54,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BirthDate)
+            @Model.BirthDate.ToShortDateString()
         </dd>
 
         <dt>

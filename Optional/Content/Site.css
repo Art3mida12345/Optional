@@ -145,6 +145,54 @@ footer {
     border-radius: 4px;
 }
 
+.vertical-align {
+    min-height: 66vh;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+}
+
+.vertical-align h2{
+    width:100%;
+    text-align:center;
+}
+
+.tab {
+    text-align: center;
+    margin: 0px 0 10px;
+}
+
+.tabs-content {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    margin: 0px 0 20px;
+    background: #46B8FF;
+    vertical-align: top;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.tab::after {
+    content: ' i i i i i i i i ';
+    word-spacing: 97px;
+    padding-left: 97px;
+    visibility: hidden;
+}
+
+.tabs-content p {
+    font-family: Monotype Corsiva;
+    font-size: 1.2em;
+}
+
+.tabs-content a {
+    font-family: 'Vanishing Boy BTN(RUS BY LYAJKA';
+    font-size: 1.5em;
+    background-color: #1997d4;
+    color: aliceblue;
+    padding: 3px;
+}
+
 @media only screen and (max-width: 444px) {
     .edit-student input {
         margin-left: 0;
