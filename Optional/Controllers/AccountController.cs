@@ -12,17 +12,31 @@ using Optional.Models;
 
 namespace Optional.Controllers
 {
+    /// <summary>
+    /// Controller that realize LogIn and LogOut methods.
+    /// </summary>
     public class AccountController : Controller
     {
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
+        /// <summary>
+        /// Login user (Get).
+        /// </summary>
+        /// <param name="returnUrl">Saves the path from which the user came.</param>
+        /// <returns>Returns view "Login".</returns>
         public ActionResult Login(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
             return View();
         }
 
+        /// <summary>
+        /// Login in the System (Post)
+        /// </summary>
+        /// <param name="model">Login model</param>
+        /// <param name="returnUrl">Saves the path from which the user came.</param>
+        /// <returns>Redirect to returnUrl or View</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model, string returnUrl)
@@ -32,7 +46,7 @@ namespace Optional.Controllers
                 ApplicationUser user = await UserManager.FindAsync(model.Login, model.Password);
                 if (user == null)
                 {
-                    ModelState.AddModelError("", @"Неверный логин или пароль.");
+                    ModelState.AddModelError("", @"Wrong login or password.");
                 }
                 else
                 {
@@ -51,6 +65,11 @@ namespace Optional.Controllers
             ViewBag.returnUrl = returnUrl;
             return View(model);
         }
+
+        /// <summary>
+        /// Logout.
+        /// </summary>
+        /// <returns>RedirectToAction("Login").</returns>
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();

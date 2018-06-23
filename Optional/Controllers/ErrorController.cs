@@ -2,8 +2,14 @@
 
 namespace Optional.Controllers
 {
+    /// <summary>
+    /// Custom errors view
+    /// </summary>
     public class ErrorController : Controller
     {
+        /// <summary>
+        /// View for code 404.
+        /// </summary>
         public ViewResult NotFound()
         {
             Response.StatusCode = 404;
@@ -11,7 +17,9 @@ namespace Optional.Controllers
             ViewBag.Title = "404";
             return View("Error");
         }
-
+        /// <summary>
+        /// View for code 401
+        /// </summary>
         public ViewResult Unauthorized()
         {
             Response.StatusCode = 401;

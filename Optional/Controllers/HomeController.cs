@@ -8,16 +8,30 @@ using Optional.Domain.Interfaces;
 
 namespace Optional.Controllers
 {
+    /// <summary>
+    /// HomeController provides methods and views for all type of user
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ICourseRepository _courseRepository;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Constructor of HomeController
+        /// </summary>
+        /// <param name="course">Sets repository</param>
         public HomeController(ICourseRepository course)
         {
             _courseRepository = course;
         }
 
+        /// <summary>
+        /// Index method of HomeController views info about courses.
+        /// </summary>
+        /// <param name="sortOrder">The sort value for courses.</param>
+        /// <param name="searchString">The value for searching.</param>
+        /// <returns>Returns ActionResult HttpNotFoundResult (if some error occur)
+        /// or view of courses.</returns>
         public ActionResult Index(string sortOrder, string searchString)
         {
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -86,6 +100,10 @@ namespace Optional.Controllers
             }
         }
 
+        /// <summary>
+        /// Dispose method. Call dispose for _courseRepository.
+        /// </summary>
+        /// <param name="d"></param>
         protected override void Dispose(bool d)
         {
             _courseRepository.Dispose();

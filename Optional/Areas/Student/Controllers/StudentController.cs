@@ -14,6 +14,9 @@ using Optional.Infrastructure.Data;
 
 namespace Optional.Areas.Student.Controllers
 {
+    /// <summary>
+    /// Actions to students.
+    /// </summary>
     [Authorize(Roles = "student")]
     public class StudentController : Controller
     {
@@ -25,6 +28,9 @@ namespace Optional.Areas.Student.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IRegisterRepository _registerRepository;
 
+        /// <summary>
+        /// Constructor of StudentController.
+        /// </summary>
         public StudentController(ICourseRepository courseRepository, IStudentRepository studentRepository,
             IRegisterRepository registerRepository)
         {
@@ -33,6 +39,9 @@ namespace Optional.Areas.Student.Controllers
             _registerRepository = registerRepository;
         }
 
+        /// <summary>
+        /// View info about student and his courses. View contains partialView.
+        /// </summary>
         public ActionResult Index()
         {
             Domain.Core.Student user = (Domain.Core.Student) UserManager.FindByNameAsync(User.Identity.Name).Result;
@@ -51,6 +60,10 @@ namespace Optional.Areas.Student.Controllers
             return HttpNotFound();
         }
 
+        /// <summary>
+        /// Add student to course.
+        /// </summary>
+        /// <param name="id">Course id.</param>
         [Authorize(Roles = "student")]
         public ActionResult EnrollForCourse(int id)
         {
@@ -76,6 +89,10 @@ namespace Optional.Areas.Student.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Register in the system view.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public ViewResult Register()
@@ -83,6 +100,10 @@ namespace Optional.Areas.Student.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Register new student in the system.
+        /// </summary>
+        /// <param name="studentView"></param>
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> Register(StudentViewModel studentView)
@@ -120,6 +141,7 @@ namespace Optional.Areas.Student.Controllers
             return View(studentView);
         }
 
+        /// <returns>Returns not started courses of student.</returns>
         public ActionResult NotStartedCourses()
         {
             Domain.Core.Student user = _studentRepository.GetWithCourses(User.Identity.Name);
@@ -142,6 +164,7 @@ namespace Optional.Areas.Student.Controllers
             return new ContentResult {Content = "<p>There are no such courses.</p>"};
         }
 
+        /// <returns>Returns started courses of student.</returns>
         public ActionResult StartedCourses()
         {
             Domain.Core.Student user = _studentRepository.GetWithCourses(User.Identity.Name);
@@ -166,6 +189,7 @@ namespace Optional.Areas.Student.Controllers
             return new ContentResult {Content = "<p>There are no such courses.</p>"};
         }
 
+        /// <returns>Returns passed courses of student.</returns>
         public ActionResult PassedCourses()
         {
             Domain.Core.Student user = _studentRepository.GetWithCourses(User.Identity.Name);
@@ -198,6 +222,7 @@ namespace Optional.Areas.Student.Controllers
             return new ContentResult {Content = "<p>There are no such courses.</p>"};
         }
 
+        /// <returns>Returns data of edited student.</returns>
         [HttpGet]
         public ActionResult Edit()
         {
@@ -230,6 +255,9 @@ namespace Optional.Areas.Student.Controllers
             }
         }
 
+        /// <summary>
+        /// Edit student in db.
+        /// </summary>
         [HttpPost]
         public ActionResult Edit(StudentEditModel model)
         {
@@ -263,6 +291,7 @@ namespace Optional.Areas.Student.Controllers
             return View(model);
         }
 
+        /// <returns>Returns information about the course lecturer.</returns>
         public ActionResult LecturerDetails(int id)
         {
             try
@@ -284,6 +313,9 @@ namespace Optional.Areas.Student.Controllers
             }
         }
 
+        /// <summary>
+        /// Call dispose of repositories.
+        /// </summary>
         protected override void Dispose(bool d)
         {
             _courseRepository.Dispose();

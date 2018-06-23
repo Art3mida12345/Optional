@@ -13,6 +13,9 @@ using Optional.Infrastructure.Data;
 
 namespace Optional.Areas.Lecturer.Controllers
 {
+    /// <summary>
+    /// Lecturer`s actions.
+    /// </summary>
     [Authorize(Roles = "teacher")]
     public class LecturerController : Controller
     {
@@ -21,12 +24,18 @@ namespace Optional.Areas.Lecturer.Controllers
         private readonly IRegisterRepository _registerRepository;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Constructor of LecturerController.
+        /// </summary>
         public LecturerController(ICourseRepository courseRepository, IRegisterRepository registerRepository)
         {
             _courseRepository = courseRepository;
             _registerRepository = registerRepository;
         }
 
+        /// <summary>
+        /// View info about lecturer.
+        /// </summary>
         public ActionResult Index()
         {
             Domain.Core.Lecturer user = (Domain.Core.Lecturer)UserManager.FindByNameAsync(User.Identity.Name).Result;
@@ -39,6 +48,7 @@ namespace Optional.Areas.Lecturer.Controllers
             return HttpNotFound();
         }
 
+        /// <returns>All courses from db.</returns>
         public ActionResult CourseList()
         {
             Domain.Core.Lecturer user = (Domain.Core.Lecturer)UserManager.FindByNameAsync(User.Identity.Name).Result;
@@ -59,6 +69,10 @@ namespace Optional.Areas.Lecturer.Controllers
             return HttpNotFound();
         }
 
+        /// <summary>
+        /// Returns course`s students with marks.
+        /// </summary>
+        /// <param name="id">Course id.</param>
         public ActionResult Grade(int id)
         {
             try
@@ -100,6 +114,11 @@ namespace Optional.Areas.Lecturer.Controllers
             }
         }
 
+        /// <summary>
+        /// Call create or edit to register.
+        /// </summary>
+        /// <param name="name">Student name.</param>
+        /// <param name="courseId">Id of course.</param>
         [HttpGet]
         public ViewResult GradeMark(string name, int courseId)
         {
@@ -120,6 +139,9 @@ namespace Optional.Areas.Lecturer.Controllers
             });
         }
 
+        /// <summary>
+        /// Add new register to db.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateRegister(RegisterViewModel registerViewModel)
@@ -132,6 +154,9 @@ namespace Optional.Areas.Lecturer.Controllers
             return RedirectToAction("Grade", new { id = registerViewModel.CourseId });
         }
 
+        /// <summary>
+        /// Edit register from db.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditRegister(RegisterViewModel registerViewModel)
@@ -142,6 +167,7 @@ namespace Optional.Areas.Lecturer.Controllers
             return RedirectToAction("Grade", new { id = register.Course.CourseId });
         }
 
+        /// <returns>Returns all students of course.</returns>
         [HttpGet]
         public ActionResult ViewStudentsOfCourse(int courseId)
         {
@@ -164,6 +190,9 @@ namespace Optional.Areas.Lecturer.Controllers
             }
         }
 
+        /// <summary>
+        /// Calls dispose for repositories.
+        /// </summary>
         protected override void Dispose(bool disposing)
         {
             _courseRepository.Dispose();

@@ -14,6 +14,9 @@ using Optional.Infrastructure.Data;
 
 namespace Optional.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// Methods for Admin.
+    /// </summary>
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
@@ -21,11 +24,18 @@ namespace Optional.Areas.Admin.Controllers
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly ICourseRepository _courseRepository;
 
+        /// <summary>
+        /// Constructor of AdminController
+        /// </summary>
+        /// <param name="course">Repository of course.</param>
         public AdminController(ICourseRepository course)
         {
             _courseRepository = course;
+            _logger.Info("Constructor of AdminComtroller");
         }
-
+        /// <summary>
+        /// Home page for Admin show brief info for user about him.
+        /// </summary>
         public ActionResult Index()
         {
             ApplicationUser user = UserManager.FindByNameAsync(User.Identity.Name).Result;
@@ -38,11 +48,15 @@ namespace Optional.Areas.Admin.Controllers
             return View();
         }
 
+        /// <returns>Returns view RegisterLecturer.</returns>
         public ActionResult RegisterLecturer()
         {
             return View();
         }
-
+        /// <summary>
+        /// Post method register lecturer. Add him to db.
+        /// </summary>
+        /// <param name="model">Data from registered form.</param>
         [HttpPost]
         public async Task<ActionResult> RegisterLecturer(LecturerRegisterModel model)
         {
@@ -76,21 +90,21 @@ namespace Optional.Areas.Admin.Controllers
             }
             return View(model);
         }
-
+        /// <summary>
+        /// View form for creating course.
+        /// </summary>
         [HttpGet]
         public ViewResult CreateCourse()
         {
-            var users = UserManager.Users.ToList();
-            var lecturers = new List<ApplicationUser>();
-            foreach (var user in users)
-            {
-                if(UserManager.IsInRole(user.Id,"teacher"))
-                    lecturers.Add(user);
-            }
+            //read all lecturers from db
+            var lecturers = UserManager.Users.OfType<Domain.Core.Lecturer>().ToList();
             ViewBag.Lecturers = new SelectList(lecturers, "UserName", "UserName");
             return View();
         }
 
+        /// <summary>
+        /// Add course to db.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateCourse(CourseViewModel course)
@@ -119,29 +133,34 @@ namespace Optional.Areas.Admin.Controllers
             return View(course);
         }
 
+        /// <summary>
+        /// Remove student from role active.
+        /// </summary>
+        /// <param name="name">Student`s name.</param>
+        /// <returns>RedirectToAction("BlockUnblockStudent").</returns>
         public ActionResult BlockStudent(string name)
         {
             UserManager.RemoveFromRole(UserManager.FindByName(name).Id, "active");
             return RedirectToAction("BlockUnblockStudent");
         }
 
+        /// <summary>
+        /// Add student to role active.
+        /// </summary>
+        /// <param name="name">Student`s name.</param>
+        /// <returns>RedirectToAction("BlockUnblockStudent").</returns>
         public ActionResult UnblockStudent(string name)
         {
             UserManager.AddToRole(UserManager.FindByName(name).Id, "active");
             return RedirectToAction("BlockUnblockStudent");
         }
 
+        /// <returns>Redirect to Index if students count =0.</returns>
         public ViewResult BlockUnblockStudent()
         {
-            var users = UserManager.Users.ToList();
-            var students = new List<Domain.Core.Student>();
-            foreach (var user in users)
-            {
-                if (UserManager.IsInRole(user.Id, "student"))
-                    students.Add((Domain.Core.Student)user);
-            }
+            var students = UserManager.Users?.OfType<Domain.Core.Student>().ToList();
 
-            if (users.Count > 0)
+            if (students.Count > 0)
             {
                 List<BlockStudentViewModel> blockStudent = new List<BlockStudentViewModel>();
                 foreach (var student in students)
@@ -164,31 +183,35 @@ namespace Optional.Areas.Admin.Controllers
             return View("Index");
         }
 
+        /// <summary>
+        /// View all lecturers from db.
+        /// </summary>
         public ViewResult LecturerList()
         {
-            var users = UserManager.Users.ToList();
-            var lecturers = new List<ApplicationUser>();
-            foreach (var user in users)
-            {
-                if (UserManager.IsInRole(user.Id, "teacher"))
-                    lecturers.Add(user);
-            }
+            var lecturers = UserManager.Users.OfType<Domain.Core.Lecturer>().ToList();
 
-            return View(lecturers.Cast<Domain.Core.Lecturer>().ToList());
+            return View(lecturers);
         }
 
+        /// <summary>
+        /// Gets all course, that don`t have a lecturer to AddLecturerToCourse method.
+        /// </summary>
         public ViewResult SelectLecturerToCourse(string lecturerName)
         {
             ViewBag.Lecturer = lecturerName;
             return View("AddLecturerToCourse",_courseRepository.GetAll().Where(c => c.Lecturer == null).ToList());
         }
 
+        /// <param name="courseId"></param>
+        /// <param name="lecturerName"></param>
+        /// <returns>Returns RedirectToAction("Index").</returns>
         public ActionResult AddLecturerToCourse(int courseId, string lecturerName)
         {
             _courseRepository.AddLecturerToCourse(lecturerName,courseId);
             return RedirectToAction("Index");
         }
 
+        /// <param name="id">Id of edited course.</param>
         [HttpGet]
         public ActionResult EditCourse(int? id)
         {
@@ -223,6 +246,9 @@ namespace Optional.Areas.Admin.Controllers
             return HttpNotFound();
         }
 
+        /// <summary>
+        /// Edit course in db.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditCourse(CourseViewModel course)
@@ -243,11 +269,16 @@ namespace Optional.Areas.Admin.Controllers
             return View(course);
         }
 
+        /// <returns>All courses from db.</returns>
         public ActionResult CourseList()
         {
             return View(_courseRepository.GetAll().ToList());
         }
 
+        /// <summary>
+        /// Delete course action.
+        /// </summary>
+        /// <returns>View DeleteCourseConfirmed.</returns>
         [HttpGet]
         public ActionResult DeleteCourse(int id)
         {
@@ -268,6 +299,9 @@ namespace Optional.Areas.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete coures from db.
+        /// </summary>
         [HttpPost, ActionName("DeleteCourse")]
         public ActionResult DeleteCourseConfirmed(int id)
         {
@@ -290,20 +324,19 @@ namespace Optional.Areas.Admin.Controllers
             return RedirectToAction("CourseList");
         }
 
+        /// <returns>All lecturers from db.</returns>
         public ViewResult SelectLecturer(int courseId)
         {
             var users = UserManager.Users.ToList();
-            var lecturers = new List<ApplicationUser>();
-            foreach (var user in users)
-            {
-                if (UserManager.IsInRole(user.Id, "teacher"))
-                    lecturers.Add(user);
-            }
+            var lecturers = UserManager.Users.OfType<Domain.Core.Lecturer>().ToList();
 
             ViewBag.CourseId = courseId;
-            return View(lecturers.Cast<Domain.Core.Lecturer>().ToList());
+            return View(lecturers);
         }
 
+        /// <summary>
+        /// Dispose course repository and call base.
+        /// </summary>
         protected override void Dispose(bool d)
         {
             _courseRepository.Dispose();

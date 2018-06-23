@@ -1,4 +1,11 @@
-﻿html {
+﻿@font-face {
+    font-family: 'Vanishing Boy BTN(RUS BY LYAJKA';
+    src: url('../fonts/vanish.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
     min-height: 100vh;
 }
 
@@ -102,13 +109,6 @@ footer {
     background-color: #1997d4;
 }
 
-@font-face {
-    font-family: 'Vanishing Boy BTN(RUS BY LYAJKA';
-    src: url('../fonts/vanish.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .student-index dt {
     text-align: left;
 }
@@ -159,14 +159,14 @@ footer {
 
 .tab {
     text-align: center;
-    margin: 0px 0 10px;
+    margin: 0 0 10px;
 }
 
 .tabs-content {
     display: inline-block;
     width: 200px;
     height: 200px;
-    margin: 0px 0 20px;
+    margin: 0 0 20px;
     background: #46B8FF;
     vertical-align: top;
     text-align: center;
@@ -201,6 +201,6 @@ footer {
 
 @media only screen and (min-width: 800px) {
     .edit-student input {
-        margin-left: 0%;
+        margin-left: 0;
     }
 }
