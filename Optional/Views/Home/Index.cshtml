@@ -45,6 +45,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Lecturer.MiddleName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
         <th></th>
     </tr>
 
@@ -85,6 +88,7 @@
                 <td class="text-center">—</td>
             }
 
+            <td>@Html.DisplayFor(modelitem=>item.Cost)</td>
 
             @if (item.StartDate.CompareTo(DateTime.Now.Date) >= 0)
             {

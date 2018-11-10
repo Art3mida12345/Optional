@@ -79,17 +79,9 @@
     <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="CourseRepository.cs" />
     <Compile Include="LecturerRepository.cs" />
-    <Compile Include="Migrations\201806011253292_MigrateDB.cs" />
-    <Compile Include="Migrations\201806011253292_MigrateDB.Designer.cs">
-      <DependentUpon>201806011253292_MigrateDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806011315164_MigrateDB1.cs" />
-    <Compile Include="Migrations\201806011315164_MigrateDB1.Designer.cs">
-      <DependentUpon>201806011315164_MigrateDB1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806021606234_MigrateRerister.cs" />
-    <Compile Include="Migrations\201806021606234_MigrateRerister.Designer.cs">
-      <DependentUpon>201806021606234_MigrateRerister.cs</DependentUpon>
+    <Compile Include="Migrations\201806251103516_AddCost.cs" />
+    <Compile Include="Migrations\201806251103516_AddCost.Designer.cs">
+      <DependentUpon>201806251103516_AddCost.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,14 +102,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806011253292_MigrateDB.resx">
-      <DependentUpon>201806011253292_MigrateDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806011315164_MigrateDB1.resx">
-      <DependentUpon>201806011315164_MigrateDB1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806021606234_MigrateRerister.resx">
-      <DependentUpon>201806021606234_MigrateRerister.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806251103516_AddCost.resx">
+      <DependentUpon>201806251103516_AddCost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

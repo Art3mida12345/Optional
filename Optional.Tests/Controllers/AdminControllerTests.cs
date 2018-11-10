@@ -17,9 +17,7 @@ namespace Optional.Tests.Controllers
         public void CourseListViewModelNotNull()
         {
             var mock = new Mock<ICourseRepository>();
-
             mock.Setup(c => c.GetAll()).Returns(new List<Course>());
-
             AdminController controller = new AdminController(mock.Object);
 
             ViewResult result = controller.CourseList() as ViewResult;
@@ -47,6 +45,7 @@ namespace Optional.Tests.Controllers
             int id = 1;
             mock.Setup(course => course.AddLecturerToCourse(name,id)).Verifiable();
             AdminController controller = new AdminController(mock.Object);
+
             RedirectToRouteResult result = controller.AddLecturerToCourse(id,name) as RedirectToRouteResult;
 
             Assert.AreEqual("Index", result.RouteValues["action"]);
@@ -58,6 +57,7 @@ namespace Optional.Tests.Controllers
             var mock = new Mock<ICourseRepository>();
             AdminController controller = new AdminController(mock.Object);
             int? id = null;
+
             ActionResult result = controller.EditCourse(id) as ActionResult;
 
             Assert.AreEqual(result.GetType(),typeof(HttpNotFoundResult));
@@ -68,10 +68,10 @@ namespace Optional.Tests.Controllers
         {
             var mock = new Mock<ICourseRepository>();
             int? id = 1;
-
             mock.Setup(c => c.Get(3)).Throws(new Exception());
             AdminController controller = new AdminController(mock.Object);
-            ActionResult result = controller.EditCourse(1);
+
+            ActionResult result = controller.EditCourse(id);
 
             Assert.AreEqual(result.GetType(), typeof(HttpNotFoundResult));
         }
@@ -83,7 +83,9 @@ namespace Optional.Tests.Controllers
             int? id = 1;
             mock.Setup(c => c.Get(1)).Returns((Course) null);
             AdminController controller = new AdminController(mock.Object);
-            ActionResult result = controller.EditCourse(1);
+
+            ActionResult result = controller.EditCourse(id);
+
             Assert.AreEqual(result.GetType(), typeof(HttpNotFoundResult));
         }
 
@@ -95,7 +97,9 @@ namespace Optional.Tests.Controllers
             Course course=new Course();
             mock.Setup(c => c.Get(1)).Returns(course);
             AdminController controller = new AdminController(mock.Object);
-            ViewResult result = controller.EditCourse(1) as  ViewResult;
+
+            ViewResult result = controller.EditCourse(id) as  ViewResult;
+
             Assert.IsNotNull(result.Model);
             Assert.AreEqual(result.Model.GetType(), typeof(CourseViewModel));
         }
@@ -103,6 +107,7 @@ namespace Optional.Tests.Controllers
         [TestMethod]
         public void EditCoursePostReturnModelIfItNotValidAndViewEdit()
         {
+            //arrange
             string expected = "";
             var mock = new Mock<ICourseRepository>();
             CourseViewModel course = new CourseViewModel();
@@ -119,11 +124,13 @@ namespace Optional.Tests.Controllers
         public void DeleteCourseGetReturnViewWithModelIfModelValid()
         {
             var mock = new Mock<ICourseRepository>();
-            int? id = 1;
+            int id = 1;
             Course course = new Course();
             mock.Setup(c => c.Get(1)).Returns(course);
             AdminController controller = new AdminController(mock.Object);
-            ViewResult result = controller.DeleteCourse(1) as ViewResult;
+
+            ViewResult result = controller.DeleteCourse(id) as ViewResult;
+
             Assert.AreEqual(result.Model.GetType(), typeof(Course));
         }
 
@@ -131,10 +138,12 @@ namespace Optional.Tests.Controllers
         public void DeleteCourseGetReturnHttpNotFoundIfExceptionOcure()
         {
             var mock = new Mock<ICourseRepository>();
-            int? id = 1;
-            mock.Setup(c => c.Get(1)).Throws(new Exception());
+            int id = 1;
+            mock.Setup(c => c.Get(id)).Throws(new Exception());
             AdminController controller = new AdminController(mock.Object);
-            ActionResult result = controller.DeleteCourse(1);
+
+            ActionResult result = controller.DeleteCourse(id);
+
             Assert.AreEqual(result.GetType(), typeof(HttpNotFoundResult));
         }
 
@@ -142,10 +151,12 @@ namespace Optional.Tests.Controllers
         public void DeleteCourseGetReturnHttpNotFoundIfCourseNull()
         {
             var mock = new Mock<ICourseRepository>();
-            int? id = 1;
-            mock.Setup(c => c.Get(1)).Returns((Course) null);
+            int id = 1;
+            mock.Setup(c => c.Get(id)).Returns((Course) null);
             AdminController controller = new AdminController(mock.Object);
-            ActionResult result = controller.DeleteCourse(1);
+
+            ActionResult result = controller.DeleteCourse(id);
+
             Assert.AreEqual(result.GetType(), typeof(HttpNotFoundResult));
         }
 
@@ -155,7 +166,9 @@ namespace Optional.Tests.Controllers
             var mock = new Mock<ICourseRepository>();
             mock.Setup(c => c.Get(1)).Returns((Course)null);
             AdminController controller = new AdminController(mock.Object);
+
             ActionResult result = controller.DeleteCourseConfirmed(31);
+
             Assert.AreEqual(result.GetType(), typeof(HttpNotFoundResult));
         }
 
@@ -165,8 +178,11 @@ namespace Optional.Tests.Controllers
             var mock = new Mock<ICourseRepository>();
             mock.Setup(c => c.Get(2)).Returns(new Course());
             AdminController controller = new AdminController(mock.Object);
-            RedirectToRouteResult result = controller.DeleteCourseConfirmed(2) as RedirectToRouteResult;
             mock.Setup(m=>m.Delete(2)).Verifiable();
+
+            RedirectToRouteResult result = controller.DeleteCourseConfirmed(2) as RedirectToRouteResult;
+
+
             Assert.AreEqual("CourseList", result.RouteValues["action"]);
         }
     }

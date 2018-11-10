@@ -10,6 +10,10 @@ namespace Optional.Areas.Admin.Models
         public int CourseId { get; set; }
 
         [Required]
+        [RegularExpression("[1-9]+[0-9]*.[0-9]{0,2}")]
+        public double Cost { get; set; }
+
+        [Required]
         public string Theme { get; set; }
 
         [Required]

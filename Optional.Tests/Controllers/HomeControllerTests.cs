@@ -44,9 +44,9 @@ namespace Optional.Tests.Controllers
         {
             var mock = new Mock<ICourseRepository>();
             HomeController controller = new HomeController(mock.Object);
-            mock.Setup(c => c.GetAll()).Throws<ArgumentNullException>();
+            mock.Setup(c => c.GetAllWithLecturerAndStudents()).Throws<ArgumentNullException>();
 
-            ActionResult result = controller.Index("name_desc", null);
+            ActionResult result = controller.Index(null, "sometext");
 
             Assert.AreEqual(result.GetType(), typeof(HttpNotFoundResult));
         }

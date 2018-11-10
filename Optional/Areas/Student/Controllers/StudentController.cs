@@ -128,6 +128,7 @@ namespace Optional.Areas.Student.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRoles(student.Id, "student", "active");
+                    _logger.Info($"New student {student.UserName} register in the system.");
 
                     return RedirectToAction("Login", "Account", new {area = ""});
                 }

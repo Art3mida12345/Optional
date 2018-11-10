@@ -31,7 +31,6 @@ namespace Optional.Areas.Admin.Controllers
         public AdminController(ICourseRepository course)
         {
             _courseRepository = course;
-            _logger.Info("Constructor of AdminComtroller");
         }
         /// <summary>
         /// Home page for Admin show brief info for user about him.
@@ -79,7 +78,8 @@ namespace Optional.Areas.Admin.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, "teacher");
-                    return RedirectToAction("Login", "Account", new {area=""});
+                    _logger.Info("Method RegisterLecturer(Post). Lecturer was succes registered.");
+                    return RedirectToAction("LecturerList");
                 }
 
                 foreach (string error in result.Errors)
@@ -117,13 +117,15 @@ namespace Optional.Areas.Admin.Controllers
                     Duration = duration.Days,
                     StartDate = course.StartDate,
                     Theme = course.Theme,
-                    Title = course.Title
+                    Title = course.Title,
+                    Cost=course.Cost
                 });
                 if (course.LecturerName != null)
                 {
                     _courseRepository.AddLecturerToCourse(course.LecturerName,
                         _courseRepository.GetAll().Last().CourseId);
                 }
+                _logger.Info("Method CreateCourse(Post). The course was created success");
 
                 return RedirectToAction("Index");
             }
@@ -141,6 +143,8 @@ namespace Optional.Areas.Admin.Controllers
         public ActionResult BlockStudent(string name)
         {
             UserManager.RemoveFromRole(UserManager.FindByName(name).Id, "active");
+            _logger.Info($"User {name} was blocked by admin.");
+
             return RedirectToAction("BlockUnblockStudent");
         }
 
@@ -152,6 +156,8 @@ namespace Optional.Areas.Admin.Controllers
         public ActionResult UnblockStudent(string name)
         {
             UserManager.AddToRole(UserManager.FindByName(name).Id, "active");
+            _logger.Info($"User {name} was unblocked by admin.");
+
             return RedirectToAction("BlockUnblockStudent");
         }
 
@@ -263,6 +269,7 @@ namespace Optional.Areas.Admin.Controllers
                 editCourse.Theme = course.Theme;
 
                 _courseRepository.Update(editCourse);
+                _logger.Info($"Course with id {course.CourseId} was update by admin.");
                 return RedirectToAction("CourseList");
             }
 
@@ -315,6 +322,7 @@ namespace Optional.Areas.Admin.Controllers
                 }
 
                 _courseRepository.Delete(id);
+                _logger.Info($"The course with {course.CourseId} was deleted by admin.");
             }
             catch (Exception ex)
             {

@@ -14,15 +14,21 @@ namespace Optional.Areas.Student.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Required]
+        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Passwords don`t match.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [RegularExpression("(?m)^(\\w-*){1,40}$", ErrorMessage = "Name can only contain letters and dashes.")]
         public string FirstName { get; set; }
 
+        [Required]
+        [RegularExpression("(?m)^(\\w-*){1,40}$", ErrorMessage = "Name can only contain letters and dashes.")]
         public string MiddleName { get; set; }
 
         [Required]
+        [RegularExpression("(?m)^(\\w-*){1,40}$", ErrorMessage = "Name can only contain letters and dashes.")]
         public string LastName { get; set; }
 
         [Required]
@@ -35,7 +41,7 @@ namespace Optional.Areas.Student.Models
         public string Group { get; set; }
 
         [Required]
-        [RegularExpression("[1-5]",ErrorMessage = "The year of study must be a positive number from one to five.")]
+        [Range(1,5, ErrorMessage = "The year of study must be a positive number from one to five.")]
         public int YearOfStudy { get; set; }
 
         [DataType(DataType.PhoneNumber)]
