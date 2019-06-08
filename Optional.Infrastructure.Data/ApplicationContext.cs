@@ -6,7 +6,14 @@ namespace Optional.Infrastructure.Data
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationContext() : base("OptionalContext") { }
+        public ApplicationContext() : base("OptionalContext")
+        {
+        }
+
+        static ApplicationContext()
+        {
+            Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationContext>());
+        }
 
         public static ApplicationContext Create()
         {
@@ -22,5 +29,7 @@ namespace Optional.Infrastructure.Data
 
         public DbSet<Register> Registers { get; set; }
         public DbSet<Course> Courses { get; set; }
+
+
     }
 }

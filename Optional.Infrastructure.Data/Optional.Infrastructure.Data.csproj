@@ -79,9 +79,9 @@
     <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="CourseRepository.cs" />
     <Compile Include="LecturerRepository.cs" />
-    <Compile Include="Migrations\201806251103516_AddCost.cs" />
-    <Compile Include="Migrations\201806251103516_AddCost.Designer.cs">
-      <DependentUpon>201806251103516_AddCost.cs</DependentUpon>
+    <Compile Include="Migrations\201906080908407_initial.cs" />
+    <Compile Include="Migrations\201906080908407_initial.Designer.cs">
+      <DependentUpon>201906080908407_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,8 +102,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806251103516_AddCost.resx">
-      <DependentUpon>201806251103516_AddCost.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906080908407_initial.resx">
+      <DependentUpon>201906080908407_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
