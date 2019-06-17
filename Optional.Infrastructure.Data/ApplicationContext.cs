@@ -10,11 +10,6 @@ namespace Optional.Infrastructure.Data
         {
         }
 
-        static ApplicationContext()
-        {
-            Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationContext>());
-        }
-
         public static ApplicationContext Create()
         {
             return new ApplicationContext();

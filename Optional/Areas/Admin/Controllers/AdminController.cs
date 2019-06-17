@@ -118,7 +118,6 @@ namespace Optional.Areas.Admin.Controllers
                     StartDate = course.StartDate,
                     Theme = course.Theme,
                     Title = course.Title,
-                    Cost=course.Cost
                 });
                 if (course.LecturerName != null)
                 {
